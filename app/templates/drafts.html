@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}草稿 | Lobster CNS{% endblock %}
+{% block content %}
+<h1>內容草稿看板</h1>
+
+<section class="card">
+  <h2>草稿摘要</h2>
+  <div class="grid cols">
+    <p><strong>Active drafts:</strong> {{ operator_summary.active_draft_count }}</p>
+    <p><strong>Archived drafts:</strong> {{ operator_summary.archived_draft_count }}</p>
+    <p><strong>Failed drafts:</strong> {{ operator_summary.failed_draft_count }}</p>
+    <p><strong>Ready drafts:</strong> {{ operator_summary.ready_draft_count }}</p>
+  </div>
+  {% if show_archived %}
+    <p class="hint">show_archived=1 is active. Archived drafts are visible in this view.</p>
+  {% else %}
+    <p class="hint">Archived items are hidden by default. Failed drafts should be retried or split into smaller drafts. Ready drafts are for human review/copying only, not published.</p>
+  {% endif %}
+  {% if operator_summary.failed_draft_count == 0 %}
+    <p class="muted">目前沒有 failed drafts。</p>
+  {% endif %}
+  {% if show_archived and operator_summary.archived_draft_count == 0 %}
+    <p class="muted">目前沒有 archived drafts。</p>
+  {% endif %}
+</section>
+
+<div class="card">
+  <form method="get" action="/dashboard/drafts" class="grid">
+    <label>狀態篩選
+      <select name="status">
+        <option value="" {% if not current_status %}selected{% endif %}>全部</option>
+        {% for status in status_options %}
+        <option value="{{ status }}" {% if current_status == status %}selected{% endif %}>{{ status_labels.get(status, status) }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>
+      <input type="checkbox" name="show_archived" value="1" {% if show_archived %}checked{% endif %}>
+      顯示已封存草稿
+    </label>
+    <button type="submit">篩選</button>
+  </form>
+</div>
+
+{% if not drafts %}
+  {% if show_archived %}
+    <p class="muted">目前沒有草稿可顯示，包含已封存草稿。</p>
+  {% else %}
+    <p class="muted">目前沒有 active drafts。已封存草稿預設隱藏，可勾選顯示已封存草稿查看。</p>
+  {% endif %}
+{% endif %}
+
+<table style="margin-top: 1rem;">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>標題</th>
+      <th>任務 ID</th>
+      <th>狀態</th>
+      <th>生成狀態</th>
+      <th>重試次數</th>
+      <th>封存</th>
+      <th>版本</th>
+      <th>渠道提示</th>
+      <th>更新時間</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for draft in drafts %}
+    <tr>
+      <td><a href="/dashboard/drafts/{{ draft.id }}">{{ draft.id }}</a></td>
+      <td>
+        {{ draft.title }}
+        {% set lower_title = draft.title|lower %}
+        {% if "validation" in lower_title or "test" in lower_title %}
+          <span class="pill neutral">validation/test</span>
+        {% endif %}
+      </td>
+      <td><a href="/dashboard/tasks/{{ draft.task_id }}">{{ draft.task_id }}</a></td>
+      <td><span class="pill">{{ status_labels.get(draft.status, draft.status) }}</span></td>
+      <td>
+        {% if draft.generation_state == "failed" %}
+          <span class="pill bad">failed</span>
+        {% elif draft.generation_state == "ready" %}
+          <span class="pill ok">ready</span>
+        {% elif draft.generation_state == "generating" %}
+          <span class="pill warn">generating</span>
+        {% else %}
+          <span class="pill neutral">{{ draft.generation_state }}</span>
+        {% endif %}
+      </td>
+      <td>{{ draft.retry_count }}</td>
+      <td>{% if draft.is_archived %}<span class="pill warn">已封存</span>{% else %}-{% endif %}</td>
+      <td>v{{ draft.version }}</td>
+      <td>{{ draft.channel_hint or "-" }}</td>
+      <td>{{ draft.updated_at }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="10" class="muted">目前沒有草稿。</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

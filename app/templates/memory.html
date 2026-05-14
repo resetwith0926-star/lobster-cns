@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}記憶庫 | Lobster CNS{% endblock %}
+{% block content %}
+<h1>記憶庫</h1>
+
+<div class="card">
+  <h2>新增記憶</h2>
+  <form method="post" action="/dashboard/memory" class="grid">
+    <label>命名空間
+      <select name="namespace">
+        {% for value, label in namespace_options %}
+        <option value="{{ value }}">{{ label }} / {{ value }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>分類
+      <select name="category">
+        {% for value, label in category_options %}
+        <option value="{{ value }}">{{ label }} / {{ value }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>重要性 <input name="importance" type="number" min="1" max="5" value="1"></label>
+    <label>內容 <textarea name="content" required></textarea></label>
+    <button type="submit">儲存記憶</button>
+  </form>
+</div>
+
+<table style="margin-top: 1rem;">
+  <thead>
+    <tr>
+      <th>命名空間</th>
+      <th>分類</th>
+      <th>重要性</th>
+      <th>來源</th>
+      <th>內容</th>
+      <th>建立時間</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for memory in memories %}
+    <tr>
+      <td>{{ memory.namespace }}</td>
+      <td>{{ memory.category }}</td>
+      <td>{{ memory.importance }}</td>
+      <td>{{ memory.source }}</td>
+      <td>{{ memory.content }}</td>
+      <td>{{ memory.created_at }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+{% block title %}草稿 {{ draft.id }} | Lobster CNS{% endblock %}
+{% block content %}
+<p><a href="/dashboard/drafts">回到草稿看板</a></p>
+<h1>{{ draft.title }}</h1>
+<p>
+  <span class="pill">{{ status_labels.get(draft.status, draft.status) }} / {{ draft.status }}</span>
+  <span class="pill">v{{ draft.version }}</span>
+  {% if draft.generation_state == "failed" %}
+    <span class="pill bad">generation: failed</span>
+  {% elif draft.generation_state == "ready" %}
+    <span class="pill ok">generation: ready</span>
+  {% elif draft.generation_state == "generating" %}
+    <span class="pill warn">generation: generating</span>
+  {% else %}
+    <span class="pill neutral">generation: {{ draft.generation_state }}</span>
+  {% endif %}
+  {% if draft.is_archived %}
+    <span class="pill warn">已封存</span>
+  {% endif %}
+  {% set lower_title = draft.title|lower %}
+  {% if "validation" in lower_title or "test" in lower_title %}
+    <span class="pill neutral">validation/test</span>
+  {% endif %}
+</p>
+
+<div class="card">
+  <p><strong>任務：</strong>
+    {% if task %}
+      <a href="/dashboard/tasks/{{ draft.task_id }}">#{{ draft.task_id }} {{ task.title }}</a>
+    {% else %}
+      #{{ draft.task_id }}
+    {% endif %}
+  </p>
+  <p><strong>渠道提示：</strong> {{ draft.channel_hint or "-" }}</p>
+  <p><strong>目標受眾：</strong> {{ draft.target_audience or "-" }}</p>
+  <p><strong>建立時間：</strong> {{ draft.created_at }}</p>
+  <p><strong>更新時間：</strong> {{ draft.updated_at }}</p>
+  <p><strong>審閱時間：</strong> {{ draft.reviewed_at or "-" }}</p>
+  <p><strong>生成狀態：</strong> {{ draft.generation_state }}</p>
+  <p><strong>重試次數：</strong> {{ draft.retry_count }}</p>
+  <p><strong>最後錯誤：</strong> {{ draft.last_error or "-" }}</p>
+  <p><strong>最後錯誤時間：</strong> {{ draft.last_error_at or "-" }}</p>
+  {% if draft.generation_state == "failed" %}
+    <p class="hint">Failed drafts should be retried or split into smaller drafts.</p>
+  {% elif draft.generation_state == "ready" %}
+    <p class="hint">Ready drafts are for human review/copying only, not published.</p>
+  {% endif %}
+</div>
+
+<div class="card" style="margin-top: 1rem;">
+  <h2>草稿內容</h2>
+  {% if draft_error %}
+    <p style="padding: 0.75rem; border: 1px solid #d93025; border-radius: 8px; background: #fff4f4; color: #8a1c14;">
+      <strong>草稿生成失敗：</strong> {{ draft_error }}
+    </p>
+  {% endif %}
+  {% if draft.draft_text %}
+    <pre>{{ draft.draft_text }}</pre>
+  {% else %}
+    <p class="muted">目前尚未生成草稿內容。</p>
+  {% endif %}
+  {% if retry_recommendation %}
+    <p style="padding: 0.75rem; border: 1px solid #b26a00; border-radius: 8px; background: #fff8eb; color: #744400;">
+      <strong>重試建議：</strong> {{ retry_recommendation }}
+    </p>
+  {% endif %}
+  <p><strong>審閱備註：</strong> {{ draft.review_notes or "-" }}</p>
+</div>
+
+<div class="card" style="margin-top: 1rem;">
+  <h2>安全提醒</h2>
+  <p class="muted"><strong>Approved means approved for human use/copying only. This system does not publish externally.</strong></p>
+  <p class="muted"><strong>Approved means human-use/copying only. It does not mean published.</strong></p>
+  <p class="muted"><strong>Quality review is advisory only. It does not approve, publish, or change draft status automatically.</strong></p>
+</div>
+
+<div class="grid cols" style="margin-top: 1rem;">
+  <div class="card">
+    <h2>品質審查</h2>
+    <form method="post" action="/dashboard/drafts/{{ draft.id }}/review-quality">
+      <button type="submit">Run Quality Review</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>產生草稿</h2>
+    <form method="post" action="/dashboard/drafts/{{ draft.id }}/generate">
+      <button type="submit">Generate Draft</button>
+    </form>
+    {% if not draft.is_archived %}
+    <form method="post" action="/dashboard/drafts/{{ draft.id }}/archive" style="margin-top: 0.75rem;">
+      <button type="submit">Archive Draft</button>
+    </form>
+    {% endif %}
+  </div>
+
+  <div class="card">
+    <h2>修訂草稿</h2>
+    <form method="post" action="/dashboard/drafts/{{ draft.id }}/revise" class="grid">
+      <label>修訂指令
+        <textarea name="revision_instruction" required placeholder="例如：語氣更溫暖、段落更精簡"></textarea>
+      </label>
+      <button type="submit">Revise Draft</button>
+    </form>
+  </div>
+
+  <div class="card">
+    <h2>更新狀態</h2>
+    <form method="post" action="/dashboard/drafts/{{ draft.id }}/status" class="grid">
+      <label>狀態
+        <select name="status" required>
+          {% for status in status_options %}
+          <option value="{{ status }}" {% if draft.status == status %}selected{% endif %}>{{ status_labels.get(status, status) }}</option>
+          {% endfor %}
+        </select>
+      </label>
+      <label>審閱備註
+        <textarea name="review_notes" placeholder="例如：可用，但 CTA 再柔和一點"></textarea>
+      </label>
+      <button type="submit">Update Status</button>
+    </form>
+  </div>
+</div>
+
+<div class="card" style="margin-top: 1rem;">
+  <h2>最新品質審查結果</h2>
+  {% if latest_review %}
+    <p><strong>狀態：</strong> {{ latest_review.status }}</p>
+    <p><strong>overall_score：</strong> {{ latest_review.overall_score }}</p>
+    <p><strong>tone_score：</strong> {{ latest_review.tone_score }}</p>
+    <p><strong>medical_safety_score：</strong> {{ latest_review.medical_safety_score }}</p>
+    <p><strong>cta_safety_score：</strong> {{ latest_review.cta_safety_score }}</p>
+    <p><strong>discipline_score：</strong> {{ latest_review.discipline_score }}</p>
+    <p><strong>review_summary：</strong> {{ latest_review.review_summary or "-" }}</p>
+    <p><strong>reviewed_by：</strong> {{ latest_review.reviewed_by }}</p>
+    <p><strong>created_at：</strong> {{ latest_review.created_at }}</p>
+    <p><strong>risk_flags：</strong></p>
+    {% if latest_review.risk_flags_json %}
+      <pre>{{ latest_review.risk_flags_json }}</pre>
+    {% else %}
+      <p class="muted">[]</p>
+    {% endif %}
+    <p><strong>suggested_rewrites：</strong></p>
+    {% if latest_review.suggested_rewrites_json %}
+      <pre>{{ latest_review.suggested_rewrites_json }}</pre>
+    {% else %}
+      <p class="muted">[]</p>
+    {% endif %}
+  {% else %}
+    <p class="muted">目前尚無品質審查結果。</p>
+  {% endif %}
+</div>
+
+{% if review_history %}
+<div class="card" style="margin-top: 1rem;">
+  <h2>品質審查歷史</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>狀態</th>
+        <th>分數</th>
+        <th>審查者</th>
+        <th>時間</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for review in review_history %}
+      <tr>
+        <td>#{{ review.id }}</td>
+        <td>{{ review.status }}</td>
+        <td>{{ review.overall_score }}</td>
+        <td>{{ review.reviewed_by }}</td>
+        <td>{{ review.created_at }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+<div class="card" style="margin-top: 1rem;">
+  <h2>來源決策摘要</h2>
+  {% if decision %}
+    <p><strong>任務摘要：</strong> {{ decision.task_summary or "-" }}</p>
+    <p><strong>CEO 決策：</strong> {{ decision.ceo_decision or "-" }}</p>
+    <p><strong>推理摘要：</strong> {{ decision.reasoning_summary or "-" }}</p>
+  {% else %}
+    <p class="muted">目前沒有可解析的來源決策摘要。</p>
+  {% endif %}
+</div>
+{% endblock %}

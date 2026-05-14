@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}任務 {{ task.id }} | Lobster CNS{% endblock %}
+{% block content %}
+<p><a href="/dashboard/tasks">回到任務看板</a></p>
+<h1>{{ task.title }}</h1>
+<p>
+  <span class="pill">{{ status_labels.get(task.status, task.status) }} / {{ task.status }}</span>
+  {% if task.is_archived %}
+    <span class="pill">已封存</span>
+  {% endif %}
+</p>
+
+<section class="grid cols">
+  <div class="card">
+    <h2>任務內容</h2>
+    <p>{{ task.description }}</p>
+    <p><strong>任務類型：</strong> {{ task.task_type or "-" }}</p>
+    <p><strong>優先級：</strong> {{ priority_labels.get(task.priority, task.priority) if task.priority else "-" }}</p>
+    <p><strong>風險等級：</strong> {{ risk_labels.get(task.risk_level, task.risk_level) if task.risk_level else "-" }}</p>
+    <p><strong>建議交給的未來角色：</strong> {{ role_labels.get(decision_view.suggested_agent_role, decision_view.suggested_agent_role) if decision_view.suggested_agent_role else "-" }}</p>
+    <p><strong>主責角色：</strong> {{ role_labels.get(decision_view.primary_agent_role, decision_view.primary_agent_role) if decision_view.primary_agent_role else "-" }}</p>
+    <p><strong>支援角色：</strong>
+      {% if decision_view.supporting_agent_roles %}
+        {% for role in decision_view.supporting_agent_roles %}
+          <span class="pill">{{ role_labels.get(role, role) }}</span>
+        {% endfor %}
+      {% else %}
+        []
+      {% endif %}
+    </p>
+    {% if task.status in ["pending", "failed"] %}
+    <form method="post" action="/dashboard/tasks/{{ task.id }}/review">
+      <button type="submit">請 CEOAgent 審查</button>
+    </form>
+    {% endif %}
+    {% if not task.is_archived %}
+    <form method="post" action="/dashboard/tasks/{{ task.id }}/archive" style="margin-top: 0.75rem;">
+      <button type="submit">Archive Task</button>
+    </form>
+    {% endif %}
+  </div>
+  <div class="card">
+    <h2>推理摘要</h2>
+    <p>{{ task.reasoning_summary or "目前還沒有決策。" }}</p>
+    {% if task.error %}<p><strong>錯誤：</strong> {{ task.error }}</p>{% endif %}
+  </div>
+</section>
+
+<section class="card" style="margin-top: 1rem;">
+  <h2>內容草稿</h2>
+  <form method="post" action="/dashboard/tasks/{{ task.id }}/drafts" class="grid">
+    <label>草稿標題（可空，預設用任務標題）<input name="title" placeholder="例如：ResetWith 本週貼文草稿"></label>
+    <label>渠道提示（可空）<input name="channel_hint" placeholder="例如：facebook_post"></label>
+    <label>目標受眾（可空）<input name="target_audience" placeholder="例如：35-55 歲上班族"></label>
+    <button type="submit">由此任務建立草稿</button>
+  </form>
+
+  <h3>相關草稿</h3>
+  {% if related_drafts %}
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>標題</th>
+          <th>狀態</th>
+          <th>版本</th>
+          <th>更新時間</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for draft in related_drafts %}
+        <tr>
+          <td><a href="/dashboard/drafts/{{ draft.id }}">{{ draft.id }}</a></td>
+          <td>{{ draft.title }}</td>
+          <td><span class="pill">{{ draft.status }}</span></td>
+          <td>v{{ draft.version }}</td>
+          <td>{{ draft.updated_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="muted">目前沒有相關草稿。</p>
+  {% endif %}
+</section>
+
+<section class="card" style="margin-top: 1rem;">
+  <h2>CEO 決策</h2>
+  {% if decision %}
+    <p><strong>決策：</strong> {{ decision.ceo_decision }}</p>
+    <p><strong>建議下一個狀態：</strong> {{ status_labels.get(decision.recommended_next_status, decision.recommended_next_status) }} / {{ decision.recommended_next_status }}</p>
+    <h3>建議步驟</h3>
+    <ol>
+      {% for step in decision.recommended_steps %}
+      <li>{{ step }}</li>
+      {% endfor %}
+    </ol>
+    <h3>成功標準</h3>
+    <ol>
+      {% for item in decision.success_criteria %}
+      <li>{{ item }}</li>
+      {% endfor %}
+    </ol>
+    <h3>決策評分 Rubric</h3>
+    {% if decision_view.decision_rubric %}
+      <ul>
+        {% for key, value in decision_view.decision_rubric.items() %}
+        <li><strong>{{ key }}:</strong> {{ value }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">{}</p>
+    {% endif %}
+    <h3>批准檢查清單 Approval Checklist</h3>
+    {% if decision_view.approval_checklist %}
+      <ul>
+        {% for key, value in decision_view.approval_checklist.items() %}
+        <li><strong>{{ key }}:</strong> {{ value }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="muted">{}</p>
+    {% endif %}
+    <pre>{{ task.ceo_decision_json }}</pre>
+  {% else %}
+    <p class="muted">目前還沒有 CEO 決策。</p>
+    <h3>決策評分 Rubric</h3>
+    <p class="muted">{}</p>
+    <h3>批准檢查清單 Approval Checklist</h3>
+    <p class="muted">{}</p>
+  {% endif %}
+</section>
+
+<section class="grid cols" style="margin-top: 1rem;">
+  <div class="card">
+    <h2>相關事件</h2>
+    {% for event in events %}
+      <p><span class="pill">{{ event_labels.get(event.event_type, event.event_type) }}</span> {{ event.message }}</p>
+    {% else %}
+      <p class="muted">沒有事件。</p>
+    {% endfor %}
+  </div>
+  <div class="card">
+    <h2>相關 LLM 呼叫</h2>
+    {% for call in llm_calls %}
+      <p><span class="pill">{{ "成功" if call.success else "失敗" }}</span> {{ call.provider }} / {{ call.model }} / {{ call.latency_ms }}ms</p>
+    {% else %}
+      <p class="muted">沒有 LLM 呼叫紀錄。</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

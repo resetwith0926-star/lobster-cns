@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}任務 | Lobster CNS{% endblock %}
+{% block content %}
+<h1>任務看板</h1>
+
+<section class="card">
+  <h2>任務摘要</h2>
+  <div class="grid cols">
+    <p><strong>Active tasks:</strong> {{ operator_summary.active_task_count }}</p>
+    <p><strong>Archived tasks:</strong> {{ operator_summary.archived_task_count }}</p>
+  </div>
+  {% if show_archived %}
+    <p class="hint">show_archived=1 is active. Archived tasks are visible in this view.</p>
+  {% else %}
+    <p class="hint">Archived items are hidden by default. Use show archived to review them.</p>
+  {% endif %}
+</section>
+
+<div class="card">
+  <form method="get" action="/dashboard/tasks">
+    <label>
+      <input type="checkbox" name="show_archived" value="1" {% if show_archived %}checked{% endif %}>
+      顯示已封存任務
+    </label>
+    <button type="submit">更新篩選</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>建立新任務</h2>
+  <form method="post" action="/dashboard/tasks" class="grid">
+    <label>任務標題 <input name="title" required placeholder="ResetWith 下週內容方向"></label>
+    <label>任務描述 <textarea name="description" placeholder="請寫下你希望 CEOAgent 審查與判斷的內容。"></textarea></label>
+    <button type="submit">建立任務</button>
+  </form>
+</div>
+
+{% if not tasks %}
+  {% if show_archived %}
+    <p class="muted">目前沒有任務可顯示，包含已封存任務。</p>
+  {% else %}
+    <p class="muted">目前沒有 active tasks。已封存任務預設隱藏，可勾選顯示已封存任務查看。</p>
+  {% endif %}
+{% endif %}
+
+{% for status in statuses %}
+<h2>{{ status_labels.get(status, status) }} <span class="muted">({{ status }})</span></h2>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>標題</th>
+      <th>優先級</th>
+      <th>建議角色</th>
+      <th>主責角色</th>
+      <th>封存</th>
+      <th>更新時間</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks if task.status == status %}
+    <tr>
+      <td><a href="/dashboard/tasks/{{ task.id }}">{{ task.id }}</a></td>
+      <td>
+        {{ task.title }}
+        {% set lower_title = task.title|lower %}
+        {% if "validation" in lower_title or "test" in lower_title %}
+          <span class="pill neutral">validation/test</span>
+        {% endif %}
+      </td>
+      <td>{{ priority_labels.get(task.priority, task.priority) if task.priority else "-" }}</td>
+      <td>{{ role_labels.get(task.suggested_agent_role, task.suggested_agent_role) if task.suggested_agent_role else "-" }}</td>
+      <td>
+        {% set primary_role = task.primary_agent_role or task.suggested_agent_role %}
+        {% if primary_role %}
+          <span class="pill">{{ role_labels.get(primary_role, primary_role) }}</span>
+        {% else %}
+          -
+        {% endif %}
+      </td>
+      <td>
+        {% if task.is_archived %}
+          <span class="pill warn">已封存</span>
+        {% else %}
+          -
+        {% endif %}
+      </td>
+      <td>{{ task.updated_at }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7" class="muted">目前沒有任務。</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endfor %}
+{% endblock %}

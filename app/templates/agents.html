@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}角色 | Lobster CNS{% endblock %}
+{% block content %}
+<h1>角色登記表</h1>
+<p class="muted">v0.1.2 只有 CEO 大腦啟用。其他角色都只是未來用的佔位符，預設停用、只能模擬，不能真的執行任務。</p>
+<table>
+  <thead>
+    <tr>
+      <th>名稱</th>
+      <th>角色</th>
+      <th>平台</th>
+      <th>狀態</th>
+      <th>是否啟用</th>
+      <th>權限</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for agent in agents %}
+    <tr>
+      <td>{{ agent.name }}</td>
+      <td>{{ role_labels.get(agent.role, agent.role) }} <span class="muted">({{ agent.role }})</span></td>
+      <td>{{ agent.platform }}</td>
+      <td>{{ agent.status }}</td>
+      <td>{{ "啟用" if agent.is_enabled else "停用" }}</td>
+      <td><code>{{ agent.permissions_json }}</code></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

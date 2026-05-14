@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Lobster CNS 龍蝦中樞{% endblock %}</title>
+    <style>
+      :root {
+        --bg: #f7f4ee;
+        --ink: #22201c;
+        --muted: #746f66;
+        --card: #fffdf8;
+        --line: #ded7ca;
+        --accent: #c43f2f;
+        --accent-soft: #f5d8d3;
+        --ok: #2f7d52;
+        --warn: #9d6b19;
+        --bad: #a43434;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at 20% 0%, #fff7d6 0, transparent 28rem),
+          radial-gradient(circle at 90% 12%, #dceee2 0, transparent 24rem),
+          var(--bg);
+        font-family: "Songti TC", "PingFang TC", Georgia, "Times New Roman", serif;
+      }
+      header {
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 253, 248, 0.82);
+        backdrop-filter: blur(12px);
+        position: sticky;
+        top: 0;
+        z-index: 2;
+      }
+      nav {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+      nav strong { color: var(--accent); letter-spacing: 0.04em; }
+      nav a {
+        color: var(--ink);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+      nav a:hover { border-color: var(--accent); }
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 1.4rem 1rem 4rem;
+      }
+      .grid { display: grid; gap: 1rem; }
+      .grid.cols { grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
+      .card {
+        background: rgba(255, 253, 248, 0.9);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: 1rem;
+        box-shadow: 0 14px 34px rgba(58, 44, 24, 0.08);
+      }
+      .metric { font-size: 2rem; font-weight: 700; }
+      .muted { color: var(--muted); }
+      .pill {
+        display: inline-block;
+        padding: 0.18rem 0.55rem;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.85rem;
+      }
+      .pill.ok { background: #dceee2; color: var(--ok); }
+      .pill.warn { background: #fff1d3; color: var(--warn); }
+      .pill.bad { background: #f6d6d6; color: var(--bad); }
+      .pill.neutral { background: #eee7da; color: var(--muted); }
+      .hint {
+        border-left: 4px solid var(--accent);
+        padding: 0.65rem 0.85rem;
+        background: rgba(255, 253, 248, 0.78);
+        color: var(--muted);
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+      }
+      th, td {
+        text-align: left;
+        vertical-align: top;
+        border-bottom: 1px solid var(--line);
+        padding: 0.7rem;
+      }
+      th { background: #eee7da; font-size: 0.9rem; }
+      tr:last-child td { border-bottom: 0; }
+      input, textarea, select {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 0.65rem;
+        background: #fff;
+        font: inherit;
+      }
+      textarea { min-height: 6rem; }
+      button, .button {
+        border: 0;
+        border-radius: 999px;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font: inherit;
+        padding: 0.58rem 0.95rem;
+        text-decoration: none;
+      }
+      pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: #1f211d;
+        color: #f6f1e8;
+        border-radius: 14px;
+        padding: 1rem;
+      }
+      @media (max-width: 720px) {
+        nav { flex-wrap: wrap; }
+        table { font-size: 0.9rem; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <strong>Lobster CNS 龍蝦中樞</strong>
+        <a href="/">總覽</a>
+        <a href="/dashboard/tasks">任務</a>
+        <a href="/dashboard/drafts">草稿</a>
+        <a href="/dashboard/agents">角色</a>
+        <a href="/dashboard/events">事件紀錄</a>
+        <a href="/dashboard/memory">記憶庫</a>
+        <a href="/dashboard/llm-calls">LLM 紀錄</a>
+      </nav>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

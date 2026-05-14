@@ -1,0 +1,12 @@
+from __future__ import annotations
+
+from fastapi import APIRouter
+
+
+router = APIRouter()
+
+
+@router.get("/health")
+def health():
+    return {"status": "ok", "service": "lobster-cns", "version": "0.1.2"}
+

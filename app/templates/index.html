@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+{% block title %}總覽 | Lobster CNS{% endblock %}
+{% block content %}
+<h1>CEO 治理核心</h1>
+<p class="muted">這裡只看本地任務、CEO 決策、事件、記憶與 LLM 呼叫紀錄。v0.1.2 不會執行任何外部平台動作。</p>
+
+<section class="grid cols">
+  {% for item in counts %}
+  <div class="card">
+    <div class="muted">{{ item.label }}</div>
+    <div class="metric">{{ item.value }}</div>
+  </div>
+  {% endfor %}
+</section>
+
+<section class="card" style="margin-top: 1rem;">
+  <h2>操作摘要</h2>
+  <div class="grid cols">
+    <p><strong>Active tasks:</strong> {{ operator_summary.active_task_count }}</p>
+    <p><strong>Archived tasks:</strong> {{ operator_summary.archived_task_count }}</p>
+    <p><strong>Active drafts:</strong> {{ operator_summary.active_draft_count }}</p>
+    <p><strong>Archived drafts:</strong> {{ operator_summary.archived_draft_count }}</p>
+    <p><strong>Failed drafts:</strong> {{ operator_summary.failed_draft_count }}</p>
+    <p><strong>Ready drafts:</strong> {{ operator_summary.ready_draft_count }}</p>
+  </div>
+  <p class="hint">Archived items are hidden by default. Use show archived to review them. Ready drafts are for human review/copying only, not published.</p>
+</section>
+
+<section class="card" style="margin-top: 1rem;">
+  <h2>Next Action / Handoff</h2>
+  <div class="grid cols">
+    <p><strong>Current version:</strong> {{ next_action_panel.version_status.current_displayed_version }}</p>
+    <p><strong>Latest git tag:</strong> {{ next_action_panel.version_status.latest_git_tag }}</p>
+    <p><strong>System status:</strong> <span class="pill {% if next_action_panel.system_status == 'needs_attention' %}bad{% elif next_action_panel.system_status in ['active', 'validation_only'] %}warn{% else %}ok{% endif %}">{{ next_action_panel.system_status }}</span></p>
+    <p><strong>Active tasks:</strong> {{ next_action_panel.task_summary.active_count }}</p>
+    <p><strong>Failed drafts:</strong> {{ next_action_panel.draft_summary.failed_count }}</p>
+    <p><strong>Validation failed drafts:</strong> {{ next_action_panel.draft_summary.validation_failed_count }}</p>
+    <p><strong>Archived counts:</strong> tasks={{ next_action_panel.task_summary.archived_count }}, drafts={{ next_action_panel.draft_summary.archived_count }}</p>
+  </div>
+
+  <h3>Top next actions</h3>
+  <ul>
+    {% for action in next_action_panel.next_actions %}
+      <li>{{ action }}</li>
+    {% endfor %}
+  </ul>
+
+  <h3>Prohibited actions</h3>
+  <ul>
+    {% for action in next_action_panel.prohibited_actions %}
+      <li>{{ action }}</li>
+    {% endfor %}
+  </ul>
+
+  <p class="hint">Use this panel as the operator's quick state snapshot. Archived items are hidden by default. Failed drafts should be retried or split into smaller drafts.</p>
+  {% if next_action_panel.draft_summary.validation_failed_count %}
+  <p class="hint">Validation/test failed drafts are visible for UI verification, but they are not production blockers.</p>
+  {% endif %}
+
+  <h3>Copyable handoff summary</h3>
+  <textarea rows="18" style="width: 100%;">{{ next_action_panel.handoff_summary }}</textarea>
+</section>
+
+<section class="card" style="margin-top: 1rem;">
+  <h2>Codex Task Brief Generator</h2>
+  <p class="hint">Human review only. This does not execute Codex.</p>
+  <textarea rows="22" style="width: 100%;">{{ next_action_panel.codex_task_brief }}</textarea>
+</section>
+
+<section class="card" style="margin-top: 1rem;">
+  <h2>Codex Brief Practical Loop Validation</h2>
+  <p class="hint">This validation note is for human review only. It does not execute Codex and does not store validation results.</p>
+
+  <h3>Practical Loop Flow</h3>
+  <ul>
+    <li>Human generates brief via dashboard</li>
+    <li>Human reviews brief</li>
+    <li>Human copies brief to Codex</li>
+    <li>Codex responds with diagnosis or plan only</li>
+    <li>Human evaluates response against criteria</li>
+    <li>Human decides next action</li>
+  </ul>
+
+  <h3>Codex Brief Acceptance Criteria</h3>
+  <ul>
+    <li>current version / latest tag</li>
+    <li>goal</li>
+    <li>context</li>
+    <li>Review Queue summary</li>
+    <li>recommended next action</li>
+    <li>prohibited actions</li>
+    <li>safety constraints</li>
+    <li>do not commit / tag / push</li>
+    <li>human-review-only</li>
+    <li>not approved / not published / not executed</li>
+  </ul>
+
+  <h3>Codex Response Evaluation Criteria</h3>
+  <ul>
+    <li>no scope expansion</li>
+    <li>no auto commit / tag / push</li>
+    <li>no platform connection</li>
+    <li>no agent activation</li>
+    <li>no auto-publishing</li>
+    <li>follows brief constraints</li>
+    <li>clear and verifiable report</li>
+    <li>asks for human approval before next step</li>
+  </ul>
+</section>
+
+<section class="card" style="margin-top: 1rem;">
+  <h2>Codex Response Evaluation Note</h2>
+  <p class="hint">This is a human-use/manual-only checklist. It does not auto-score, auto-judge, auto-execute, commit, tag, or push.</p>
+
+  <h3>Scope Control</h3>
+  <ul>
+    <li>Did Codex stay within the Codex Task Brief scope?</li>
+    <li>Did Codex add files or features not requested?</li>
+    <li>Did Codex modify logic not requested?</li>
+    <li>Did Codex touch out-of-scope items?</li>
+    <li>If scope expanded, did Codex explain why and wait for human approval?</li>
+  </ul>
+
+  <h3>Forbidden Actions</h3>
+  <ul>
+    <li>Did Codex perform any forbidden action?</li>
+    <li>Did Codex attempt auto commit / tag / push?</li>
+    <li>Did Codex attempt platform connection or agent activation?</li>
+    <li>Did Codex attempt auto-publishing or auto-execution?</li>
+    <li>Did Codex add disallowed dependencies or libraries?</li>
+  </ul>
+
+  <h3>Files Changed / Tests / Git Status</h3>
+  <ul>
+    <li>Are changed files reasonable and expected?</li>
+    <li>Were any unexpected files modified?</li>
+    <li>Were new files added outside the brief?</li>
+    <li>Were tests run and did they pass?</li>
+    <li>Is git status clean or clearly explained?</li>
+    <li>Are unexpected changes explained?</li>
+  </ul>
+
+  <h3>Ready to Commit</h3>
+  <ul>
+    <li>Were all changes human-reviewed?</li>
+    <li>Do changes match the Codex Brief Acceptance Criteria?</li>
+    <li>Are any planned items missing?</li>
+    <li>Is code style consistent?</li>
+    <li>Are there debug code, console.log, or stray TODO comments?</li>
+    <li>Are syntax/compile errors absent?</li>
+    <li>Did the human operator perform basic practical validation?</li>
+  </ul>
+
+  <h3>Ready to Tag</h3>
+  <ul>
+    <li>Has the commit already been made?</li>
+    <li>Is the version stable?</li>
+    <li>Are all planned changes included?</li>
+    <li>Are there no known blocking issues?</li>
+    <li>Does the tag name follow version naming rules?</li>
+    <li>Is release note / validation note ready?</li>
+  </ul>
+</section>
+
+<section class="card" style="margin-top: 1rem;">
+  <h2>Codex Result Handoff Summary</h2>
+  <p class="hint">This summary is for human reference only and is not an automated decision.</p>
+  <pre style="white-space: pre-wrap;">
+CODEX RESULT HANDOFF SUMMARY
+
+Task Brief ID: [manual fill: task brief id]
+Task Name: [manual fill: task name]
+Execution date/time: [manual fill: yyyy-mm-dd hh:mm]
+Codex Session ID: [manual fill: codex session id]
+
+What changed: [manual fill: concise summary]
+Files changed: [manual fill: expected files only / list files]
+Tests run: [manual fill: command or not run]
+Test result: [manual fill: pass / fail / partial]
+Git status: [manual fill: clean / dirty / explained]
+Uncommitted changes count: [manual fill: number]
+Branch: [manual fill: branch name]
+
+Scope control result: [manual fill: no scope creep / scope creep found]
+Forbidden actions check: [manual fill: clean / issue found]
+Ready to commit: [manual fill: yes / no / needs human confirmation]
+Ready to tag: [manual fill: yes / no / needs human confirmation]
+Suggested tag name: [manual fill: proposed tag or not ready]
+Next step recommendation: [manual fill: next operator action]
+
+This summary is for human reference only and is not an automated decision.
+  </pre>
+</section>
+
+<section class="card" style="margin-top: 1rem;">
+  <h2>Review Queue</h2>
+  <p class="hint">This queue separates real production attention from validation/test records. Approved means human-use/copying only, not published.</p>
+
+  <div class="grid cols">
+    <div>
+      <h3>Needs Attention <span class="pill bad">{{ next_action_panel.review_queue.needs_attention|length }}</span></h3>
+      <p class="hint">{{ next_action_panel.review_queue_hints.needs_attention }}</p>
+      {% for item in next_action_panel.review_queue.needs_attention %}
+        <p>
+          <strong>{{ item.title }}</strong><br>
+          <span class="pill bad">{{ item.status }}</span>
+          <span class="pill bad">{{ item.generation_state }}</span>
+          {% if item.retry_count %}<span class="pill warn">retry {{ item.retry_count }}</span>{% endif %}
+          {% if item.last_error %}<br><span class="muted">{{ item.last_error }}</span>{% endif %}
+        </p>
+      {% else %}
+        <p class="muted">No drafts currently need attention.</p>
+      {% endfor %}
+    </div>
+
+    <div>
+      <h3>Failed Production Drafts <span class="pill bad">{{ next_action_panel.review_queue.failed_production_drafts|length }}</span></h3>
+      <p class="hint">{{ next_action_panel.review_queue_hints.failed_production_drafts }}</p>
+      {% for item in next_action_panel.review_queue.failed_production_drafts %}
+        <p>
+          <strong>{{ item.title }}</strong><br>
+          <span class="pill bad">{{ item.generation_state }}</span>
+          {% if item.retry_count %}<span class="pill warn">retry {{ item.retry_count }}</span>{% endif %}
+          {% if item.last_error %}<br><span class="muted">{{ item.last_error }}</span>{% endif %}
+        </p>
+      {% else %}
+        <p class="muted">No failed production drafts.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="grid cols" style="margin-top: 1rem;">
+    <div>
+      <h3>Validation / Test Records <span class="pill warn">{{ next_action_panel.review_queue.validation_test_records|length }}</span></h3>
+      <p class="hint">{{ next_action_panel.review_queue_hints.validation_test_records }}</p>
+      {% for item in next_action_panel.review_queue.validation_test_records %}
+        <p>
+          <strong>{{ item.title }}</strong><br>
+          <span class="pill warn">{{ item.status }}</span>
+          <span class="pill warn">{{ item.generation_state }}</span>
+          {% if item.retry_count %}<span class="pill warn">retry {{ item.retry_count }}</span>{% endif %}
+        </p>
+      {% else %}
+        <p class="muted">No validation/test records.</p>
+      {% endfor %}
+    </div>
+
+    <div>
+      <h3>Ready for Review <span class="pill ok">{{ next_action_panel.review_queue.ready_for_review|length }}</span></h3>
+      <p class="hint">{{ next_action_panel.review_queue_hints.ready_for_review }}</p>
+      {% for item in next_action_panel.review_queue.ready_for_review %}
+        <p>
+          <strong>{{ item.title }}</strong><br>
+          <span class="pill">{{ item.status }}</span>
+          <span class="pill ok">{{ item.generation_state }}</span>
+        </p>
+      {% else %}
+        <p class="muted">No drafts ready for review.</p>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="grid cols" style="margin-top: 1rem;">
+    <div>
+      <h3>Approved for Human Copy <span class="pill ok">{{ next_action_panel.review_queue.approved_for_human_copy|length }}</span></h3>
+      <p class="hint">{{ next_action_panel.review_queue_hints.approved_for_human_copy }}</p>
+      {% for item in next_action_panel.review_queue.approved_for_human_copy %}
+        <p>
+          <strong>{{ item.title }}</strong><br>
+          <span class="pill ok">{{ item.status }}</span>
+          <span class="pill">{{ item.generation_state }}</span>
+        </p>
+      {% else %}
+        <p class="muted">No approved drafts waiting for human copy.</p>
+      {% endfor %}
+    </div>
+
+    <div>
+      <h3>Archived <span class="pill neutral">{{ next_action_panel.review_queue.archived|length }}</span></h3>
+      <p class="hint">{{ next_action_panel.review_queue_hints.archived }}</p>
+      {% for item in next_action_panel.review_queue.archived %}
+        <p>
+          <strong>{{ item.title }}</strong><br>
+          <span class="pill warn">archived</span>
+          <span class="pill">{{ item.status }}</span>
+          <span class="pill">{{ item.generation_state }}</span>
+        </p>
+      {% else %}
+        <p class="muted">No archived drafts.</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="grid cols" style="margin-top: 1rem;">
+  <div class="card">
+    <h2>最近事件</h2>
+    {% for event in recent_events %}
+      <p><span class="pill">{{ event_labels.get(event.event_type, event.event_type) }}</span> {{ event.message }}</p>
+    {% else %}
+      <p class="muted">目前沒有事件。</p>
+    {% endfor %}
+  </div>
+  <div class="card">
+    <h2>最近錯誤</h2>
+    {% for event in recent_errors %}
+      <p><span class="pill">{{ event.actor }}</span> {{ event.message }}</p>
+    {% else %}
+      <p class="muted">目前沒有錯誤紀錄。</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

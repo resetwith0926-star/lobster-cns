@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}LLM 紀錄 | Lobster CNS{% endblock %}
+{% block content %}
+<h1>LLM 呼叫紀錄</h1>
+<table>
+  <thead>
+    <tr>
+      <th>時間</th>
+      <th>供應商</th>
+      <th>模型</th>
+      <th>任務 ID</th>
+      <th>狀態</th>
+      <th>延遲</th>
+      <th>Prompt 預覽</th>
+      <th>回應</th>
+      <th>錯誤</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for call in llm_calls %}
+    <tr>
+      <td>{{ call.created_at }}</td>
+      <td>{{ call.provider }}</td>
+      <td>{{ call.model }}</td>
+      <td>{{ call.task_id or "-" }}</td>
+      <td>{{ "成功" if call.success else "失敗" }}</td>
+      <td>{{ call.latency_ms }}ms</td>
+      <td><pre>{{ call.prompt_preview }}</pre></td>
+      <td><pre>{{ call.raw_response or call.parsed_json or "" }}</pre></td>
+      <td>{{ call.error or "" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
