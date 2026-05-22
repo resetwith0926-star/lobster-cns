@@ -717,6 +717,7 @@ function normalizeText(text: string): string {
     .replace(/【\s*AI\s*摘要\s*】/gi, "")
     .replace(/🔍\s*AI\s*摘要/gi, "")
     .replace(/AI\s*摘要[:：]?/gi, "")
+    .replace(/^[🧬🔬⚖️👥🎯🌿👉➡\s]+/gu, "")
     .replace(
       /CNFCD 是由微康公司開發的個人化代謝飲食方法[，,]?/g,
       "CNFCD 在這裡被整理成一套代謝健康理解框架，",
@@ -733,6 +734,7 @@ function isUsefulText(text: string): boolean {
   if (!value) return false;
   if (/^[a-z0-9-]+$/i.test(value)) return false;
   if (value.startsWith("→ ")) return false;
+  if (value.startsWith("👉") || value.startsWith("➡")) return false;
 
   const noisyFragments = [
     "💡 本文重點導覽",
@@ -754,8 +756,34 @@ function isUsefulText(text: string): boolean {
     "CNFCD 學員",
     "學員",
     "客戶",
+    "個案",
+    "協助個案",
+    "施憲紘",
     "CNFCD 如何幫助",
     "CNFCD 如何協助",
+    "想了解 CNFCD 是否適合",
+    "是否適合你",
+    "歡迎聯繫",
+    "聯繫我",
+    "歡迎私訊",
+    "私訊",
+    "諮詢",
+    "預約",
+    "立即",
+    "購買",
+    "報名",
+    "點此",
+    "點擊",
+    "LINE",
+    "Line",
+    "Facebook",
+    "FB",
+    "了解如何透過",
+    "了解如何",
+    "值得認真考慮",
+    "開始有感覺",
+    "通常執行 CNFCD",
+    "執行 CNFCD",
     "立即購買",
     "加入課程",
     "預約諮詢",
