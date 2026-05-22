@@ -12,7 +12,7 @@ export type ArticleCategory =
   | "常見迷思"
   | "案例與研究整理";
 
-export type ArticleSource = "觀念短文" | "站內清洗文" | "原站文章";
+export type ArticleSource = "觀念短文" | "知識整理" | "原站文章";
 
 export interface ArticleSection {
   heading: string;
@@ -439,7 +439,7 @@ const externalArticles = uniqueCanonicalRows(csvRows)
       originalUrl: row.canonical,
       tags: tagsFromSlug(slug, category),
       recommendedOrder: index + 20,
-      source: content ? "站內清洗文" : "原站文章",
+      source: content ? "知識整理" : "原站文章",
       content,
     };
   });

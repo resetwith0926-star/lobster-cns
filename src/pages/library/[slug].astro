@@ -30,12 +30,12 @@ const updatedDate = content
 >
   <article class="knowledge-article">
     <header class="panel page-heading article-hero">
-      <p class="eyebrow">Cleaned Article</p>
+      <p class="eyebrow">Knowledge Article</p>
       <h1>{article.title}</h1>
       <p class="section-intro">{article.description}</p>
       <div class="note-meta">
         <span>{article.category}</span>
-        <span>站內清洗版</span>
+        <span>站內知識整理</span>
         <span>更新 {updatedDate}</span>
       </div>
     </header>
@@ -73,8 +73,8 @@ const updatedDate = content
 
     {
       content && (
-        <section class="panel article-body" aria-label="清洗後文章內容">
-          <p class="eyebrow">Clean Reading</p>
+        <section class="panel article-body" aria-label="文章內容">
+          <p class="eyebrow">Article</p>
           {content.blocks.map((block) => {
             if (block.type === "heading") return <h2>{block.text}</h2>;
             if (block.type === "quote")
