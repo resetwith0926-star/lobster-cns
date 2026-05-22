@@ -25,6 +25,11 @@ export interface ArticleContentBlock {
   items?: string[];
 }
 
+export interface ArticleLink {
+  label: string;
+  href: string;
+}
+
 export interface ArticleVisual {
   type:
     | "flow"
@@ -49,6 +54,8 @@ export interface CleanArticleContent {
   keyTakeaways: string[];
   visual: ArticleVisual;
   blocks: ArticleContentBlock[];
+  related?: ArticleLink[];
+  references?: ArticleLink[];
 }
 
 export interface ArticleEntry {
@@ -199,6 +206,137 @@ export const principleArticles: ArticleEntry[] = [
         ],
       },
     ],
+  },
+  {
+    slug: "middle-age-metabolism-after-40",
+    title: "為什麼 40 歲後吃一樣的東西卻會胖？真正的原因不是「代謝變慢」",
+    description:
+      "從胰島素敏感度、肌肉量、睡眠品質與血糖波動，理解 40 歲後身體為什麼更容易卡住。",
+    category: "新手必讀",
+    url: "/library/middle-age-metabolism-after-40",
+    tags: ["40歲後", "中年代謝", "胰島素敏感度", "肌肉量", "睡眠"],
+    recommendedOrder: 2,
+    source: "知識整理",
+    content: {
+      slug: "middle-age-metabolism-after-40",
+      originalSlug: "middle-age-metabolism-after-40",
+      title: "為什麼 40 歲後吃一樣的東西卻會胖？真正的原因不是「代謝變慢」",
+      originalUrl: "",
+      importedAt: "2026-05-23",
+      summary: [
+        "很多人 40 歲後覺得自己吃得和以前差不多，體重、腰圍或健檢數字卻開始變化。常見說法是代謝變慢，但這個答案只說到一小部分。",
+        "更值得觀察的是身體處理食物的方式變了。胰島素敏感度、肌肉量、睡眠深度、壓力與血糖波動，會一起改變身體如何儲存與使用能量。",
+      ],
+      keyTakeaways: [
+        "20 到 60 歲之間，調整體組成後的日常能量消耗並沒有像大眾想像中大幅下降。",
+        "40 歲後更常見的問題，是同樣一餐引發更大的血糖與胰島素反應。",
+        "肌肉量下降會讓血糖緩衝能力變差，體重不變也可能代表身體組成改變。",
+        "睡眠變淺與壓力累積，會讓飢餓感、嘴饞與隔天飲食選擇更難穩定。",
+      ],
+      visual: {
+        type: "system",
+        title: "40 歲後卡住的系統地圖",
+        center: "中年代謝卡住",
+        nodes: [
+          "胰島素敏感度下降",
+          "肌肉量無聲流失",
+          "睡眠品質變淺",
+          "血糖波動變大",
+          "身體更容易儲存",
+        ],
+      },
+      blocks: [
+        {
+          type: "quote",
+          text: "我明明吃得跟以前一樣，怎麼一過 40 就開始發胖？這句話背後，常常不是一個原因，而是一整套身體反應方式的改變。",
+        },
+        {
+          type: "heading",
+          text: "一、代謝變慢這件事，常被高估了",
+        },
+        {
+          type: "paragraph",
+          text: "大部分人一提到中年發胖，第一個解釋就是年紀大了、代謝變慢。這句話聽起來合理，但如果只用它解釋 40 歲後的變化，會忽略更重要的部分。",
+        },
+        {
+          type: "paragraph",
+          text: "2021 年 Science 期刊發表一項橫跨 29 國、超過 6,400 人的研究，觀察人類一生的日常能量消耗。研究指出，調整體組成後，20 到 60 歲之間的成人能量消耗大致維持穩定，明顯下降主要出現在 60 歲後。",
+        },
+        {
+          type: "paragraph",
+          text: "換句話說，40 歲和 25 歲的差距，通常沒有大到足以單獨解釋所有變胖。真正該問的是：為什麼身體開始用不同方式處理同樣的食物？",
+        },
+        {
+          type: "heading",
+          text: "二、真正改變的是身體的反應方式",
+        },
+        {
+          type: "paragraph",
+          text: "40 歲後變胖，常見背景不是代謝引擎突然壞掉，而是身體處理血糖、胰島素、肌肉與睡眠壓力的條件變了。以下三件事最常同時發生。",
+        },
+        {
+          type: "list",
+          items: [
+            "胰島素敏感度下降：同樣一碗飯，身體可能需要更多胰島素才能處理。胰島素長時間偏高時，身體會更傾向儲存能量，也比較不容易動員脂肪。",
+            "肌肉量無聲流失：肌肉是血糖的緩衝器。肌肉少了，血糖能被肌肉吸收使用的空間變小，身體組成也可能在體重沒有大變時悄悄改變。",
+            "睡眠品質下降：深層睡眠變少、半夜容易醒、壓力恢復不足，都可能影響飽足感、飢餓感與隔天對高熱量食物的渴望。",
+          ],
+        },
+        {
+          type: "heading",
+          text: "三、所以問題不是更努力，而是換一張地圖",
+        },
+        {
+          type: "paragraph",
+          text: "如果只把中年變胖理解成少吃不夠、多動不夠，很容易走回同一條路：更用力節食、撐一段時間、生活一亂就復胖，然後覺得自己失敗。",
+        },
+        {
+          type: "paragraph",
+          text: "CNFCD 的知識入口想做的是另一件事：把代謝、血糖、胰島素、肌肉、睡眠、壓力、腸道與外食節奏放回同一張地圖。當你知道身體卡在哪裡，調整才不會只剩下責怪自己。",
+        },
+        {
+          type: "list",
+          items: [
+            "如果飯後 1 小時想睡、腦袋鈍、需要咖啡續命，可以先觀察血糖波動。",
+            "如果半夜常醒、早上疲累、下午嘴饞，可以先觀察睡眠與壓力恢復。",
+            "如果體重沒變但腰圍變大，可以先觀察肌肉量、活動量與身體組成。",
+          ],
+        },
+        {
+          type: "heading",
+          text: "四、這不是治療承諾，而是觀察起點",
+        },
+        {
+          type: "paragraph",
+          text: "這篇文章是健康教育與代謝原理整理，不取代醫療診斷、治療或用藥建議。若你已經有糖尿病、脂肪肝、腎臟病、心血管疾病或正在用藥，請以醫師與專業醫療人員的建議為主。",
+        },
+        {
+          type: "paragraph",
+          text: "但如果你只是覺得自己 40 歲後開始卡住，可以先不用急著責怪意志力。先觀察飯後精神、半夜醒來次數、腰圍變化與外食節奏，這些線索往往比單次體重更接近身體正在發生的事。",
+        },
+      ],
+      related: [
+        {
+          label: "胰島素阻抗完整指南",
+          href: "/library/life-insulin-resistance-complete-guide",
+        },
+        {
+          label: "CNFCD 與 168 間歇性斷食比較",
+          href: "/library/life-cnfcd-vs-168-intermittent-fasting-comparison",
+        },
+        {
+          label: "肌少症、肌肉流失與代謝老化",
+          href: "/library/life-sarcopenia-muscle-loss-metabolic-aging",
+        },
+      ],
+      references: [
+        {
+          label:
+            "Pontzer 等人，Daily Energy Expenditure through the Human Life Course，Science 2021",
+          href: "https://pubmed.ncbi.nlm.nih.gov/34385400/",
+        },
+      ],
+    },
   },
   {
     slug: "sleep-appetite-metabolism",
@@ -429,7 +567,9 @@ const externalArticles = uniqueCanonicalRows(csvRows)
     const slug = slugFromUrl(row.canonical);
     const articleSlug = `life-${slug}`;
     const category = categoryFromSlug(slug);
-    const content = cleanedLifeArticles[articleSlug];
+    const content = cleanedLifeArticles[articleSlug]
+      ? sanitizeContent(cleanedLifeArticles[articleSlug])
+      : undefined;
     return {
       slug: articleSlug,
       title: titleFromSlug(slug),
@@ -509,6 +649,137 @@ function uniqueCanonicalRows(rows: CsvRow[]): CsvRow[] {
     seen.add(row.canonical);
     return true;
   });
+}
+
+function sanitizeContent(content: CleanArticleContent): CleanArticleContent {
+  const blocks: ArticleContentBlock[] = [];
+
+  for (const block of content.blocks) {
+    if (isHardStopBlock(block)) break;
+
+    const cleanedBlock = cleanBlock(block);
+    if (cleanedBlock) blocks.push(cleanedBlock);
+  }
+
+  return {
+    ...content,
+    summary: content.summary
+      .map(normalizeText)
+      .filter(isUsefulText)
+      .slice(0, 2),
+    keyTakeaways: content.keyTakeaways
+      .map(normalizeText)
+      .filter(isUsefulText)
+      .filter((item) => !isStructuralLabel(item))
+      .slice(0, 4),
+    blocks,
+  };
+}
+
+function cleanBlock(block: ArticleContentBlock): ArticleContentBlock | null {
+  if (block.type === "list") {
+    const items = (block.items ?? [])
+      .map(normalizeText)
+      .filter(isUsefulText)
+      .filter((item) => !isStructuralLabel(item));
+    return items.length > 0 ? { ...block, items } : null;
+  }
+
+  const text = normalizeText(block.text ?? "");
+  if (!isUsefulText(text)) return null;
+  if (block.type === "heading" && isStructuralLabel(text)) return null;
+  return { ...block, text };
+}
+
+function isHardStopBlock(block: ArticleContentBlock): boolean {
+  const values =
+    block.type === "list" ? (block.items ?? []) : [block.text ?? ""];
+  return values.some((value) =>
+    [
+      "CNFCD 個人化代謝健康系統",
+      "微康公司",
+      "桑日創意",
+      "Sun Innovative",
+      "Copyright",
+      "Design by",
+      "發布：",
+      "最後更新：",
+      "星期一至星期五",
+      "Monday–Friday",
+      "resetwith0926@gmail.com",
+      "email@email.com",
+    ].some((keyword) => normalizeText(value).includes(keyword)),
+  );
+}
+
+function normalizeText(text: string): string {
+  return text
+    .replace(/【\s*AI\s*摘要\s*】/gi, "")
+    .replace(/🔍\s*AI\s*摘要/gi, "")
+    .replace(/AI\s*摘要[:：]?/gi, "")
+    .replace(
+      /CNFCD 是由微康公司開發的個人化代謝飲食方法[，,]?/g,
+      "CNFCD 在這裡被整理成一套代謝健康理解框架，",
+    )
+    .replace(/由微康公司開發的/g, "")
+    .replace(/個人化代謝飲食方法/g, "代謝健康理解框架")
+    .replace(/個人化飲食調整方向/g, "飲食結構觀察方向")
+    .replace(/針對[^，。]*量身設計/g, "以代謝脈絡整理")
+    .trim();
+}
+
+function isUsefulText(text: string): boolean {
+  const value = text.trim();
+  if (!value) return false;
+  if (/^[a-z0-9-]+$/i.test(value)) return false;
+  if (value.startsWith("→ ")) return false;
+
+  const noisyFragments = [
+    "💡 本文重點導覽",
+    "📋 本文重點摘要",
+    "📚 延伸閱讀",
+    "AI 摘要",
+    "AI摘要",
+    "CNFCD 個人化代謝健康系統",
+    "微康公司",
+    "桑日創意",
+    "Sun Innovative",
+    "cnfcd-joy123",
+    "產品",
+    "開發者",
+    "官方網站",
+    "本文作者",
+    "健康顧問",
+    "對 CNFCD 學員",
+    "CNFCD 學員",
+    "學員",
+    "客戶",
+    "CNFCD 如何幫助",
+    "CNFCD 如何協助",
+    "立即購買",
+    "加入課程",
+    "預約諮詢",
+    "聯絡我們",
+    "免費諮詢",
+    "email@email.com",
+    "resetwith0926@gmail.com",
+    "Copyright",
+    "Design by",
+  ];
+
+  return !noisyFragments.some((fragment) => value.includes(fragment));
+}
+
+function isStructuralLabel(text: string): boolean {
+  return [
+    "Summary",
+    "Main Content",
+    "重要免責聲明",
+    "完整延伸閱讀地圖",
+    "認識脂肪肝",
+    "補充與生活",
+    "CNFCD 應用",
+  ].includes(text.trim());
 }
 
 function slugFromUrl(url: string): string {

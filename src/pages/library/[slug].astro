@@ -94,6 +94,60 @@ const updatedDate = content
       )
     }
 
+    {
+      content && (content.related?.length || content.references?.length) && (
+        <section class="panel related-panel" aria-label="延伸閱讀與資料來源">
+          {content.related && content.related.length > 0 && (
+            <div>
+              <div class="section-heading inline-heading">
+                <p class="eyebrow">Next Reading</p>
+                <h2>延伸閱讀</h2>
+              </div>
+              <ul class="reading-list">
+                {content.related.map((item) => (
+                  <li>
+                    <a
+                      href={item.href}
+                      target={
+                        item.href.startsWith("http") ? "_blank" : undefined
+                      }
+                      rel={
+                        item.href.startsWith("http") ? "noreferrer" : undefined
+                      }
+                    >
+                      <span>{item.label}</span>
+                      <span aria-hidden="true">
+                        {item.href.startsWith("http") ? "↗" : "→"}
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {content.references && content.references.length > 0 && (
+            <div>
+              <div class="section-heading inline-heading">
+                <p class="eyebrow">References</p>
+                <h2>資料來源</h2>
+              </div>
+              <ul class="reading-list reference-list">
+                {content.references.map((item) => (
+                  <li>
+                    <a href={item.href} target="_blank" rel="noreferrer">
+                      <span>{item.label}</span>
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </section>
+      )
+    }
+
     <nav class="panel pager-nav" aria-label="文章導覽">
       <a href={`/articles/${categorySlugMap[article.category]}`}>
         <span>回到「{article.category}」分類</span>

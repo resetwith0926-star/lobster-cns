@@ -306,7 +306,9 @@ button {
 .category-card,
 .article-card,
 .digest-panel,
+.audience-panel,
 .article-visual,
+.related-panel,
 .article-body {
   padding: clamp(22px, 5vw, 38px);
 }
@@ -341,6 +343,7 @@ button {
 .prose-section p,
 .category-card p,
 .article-card p,
+.audience-card p,
 .feature-card p,
 .concept-card p,
 .digest-copy p,
@@ -363,6 +366,7 @@ button {
 }
 
 .card-grid,
+.audience-grid,
 .concept-grid,
 .category-overview,
 .article-stack,
@@ -453,6 +457,7 @@ button {
 .feature-card,
 .concept-card,
 .article-card,
+.audience-card,
 .category-card {
   position: relative;
   overflow: hidden;
@@ -477,6 +482,7 @@ button {
 
 .feature-card h2,
 .concept-card h2,
+.audience-card h3,
 .article-card h2,
 .category-card h2,
 .prose-section h2 {
@@ -490,6 +496,8 @@ button {
 .feature-card:focus-visible,
 .concept-card:hover,
 .concept-card:focus-visible,
+.audience-card:hover,
+.audience-card:focus-visible,
 .reading-list a:hover,
 .reading-list a:focus-visible,
 .pager-nav a:hover,
@@ -505,9 +513,43 @@ button {
 }
 
 .card-arrow,
+.audience-card span,
+.audience-card small,
 .concept-topline span,
 .text-link {
   color: #f1aa98;
+}
+
+.audience-panel .section-heading {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 20px;
+}
+
+.audience-grid {
+  padding: 0 24px 24px;
+}
+
+.audience-card {
+  display: grid;
+  min-height: 220px;
+  align-content: space-between;
+  gap: 12px;
+  padding: 20px;
+}
+
+.audience-card span,
+.audience-card small {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.audience-card h3 {
+  font-size: clamp(1.25rem, 5vw, 1.75rem);
+  line-height: 1.18;
 }
 
 .flow-diagram {
@@ -597,6 +639,22 @@ button {
   margin: 0;
   padding: 20px 24px 24px;
   list-style: none;
+}
+
+.related-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.related-panel .section-heading {
+  padding-top: 0;
+}
+
+.reference-list a {
+  align-items: flex-start;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.65;
 }
 
 .reading-list a,
@@ -913,6 +971,10 @@ button {
   .takeaway-grid,
   .mindmap-nodes,
   .compare-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .audience-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

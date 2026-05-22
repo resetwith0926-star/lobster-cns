@@ -22,6 +22,51 @@ const heroCards = [
   },
 ];
 
+const audiencePaths = [
+  {
+    label: "中年代謝",
+    title: "我 40 歲後開始卡住",
+    description:
+      "吃得和以前差不多，腰圍、體脂或健檢數字卻開始變化。先看胰島素、肌肉與睡眠的系統變化。",
+    href: "/library/middle-age-metabolism-after-40",
+  },
+  {
+    label: "產後復原",
+    title: "我是產後媽媽",
+    description:
+      "睡眠碎片化、壓力、飢餓感與身體組成變化，常常需要一起看，而不是只看熱量。",
+    href: "/articles/sleep-stress",
+  },
+  {
+    label: "復胖循環",
+    title: "我已經復胖很多次",
+    description:
+      "反覆節食、停滯、暴食、再重來，可能不是意志力壞掉，而是代謝適應與生活壓力在拉扯。",
+    href: "/notes/plateau-and-metabolic-adaptation",
+  },
+  {
+    label: "健檢紅字",
+    title: "我開始看到脂肪肝、血糖或三高警訊",
+    description:
+      "把健檢數字放回代謝脈絡，理解血糖、胰島素、肝臟與發炎訊號如何互相牽動。",
+    href: "/articles/metabolic-disease",
+  },
+  {
+    label: "外食上班族",
+    title: "我忙、常外食、下午容易崩",
+    description:
+      "早餐店、便當、手搖飲與宵夜不只是選擇問題，也是血糖節奏與壓力恢復的問題。",
+    href: "/notes/eating-out-stable-rhythm",
+  },
+  {
+    label: "睡眠壓力",
+    title: "我睡不好、壓力大、容易嘴饞",
+    description:
+      "睡眠與壓力會改變隔天的飢餓感、甜食渴望與脂肪動員條件，值得先被看見。",
+    href: "/notes/sleep-appetite-metabolism",
+  },
+];
+
 const readingPaths = [
   { label: "新手必讀", href: "/articles/beginner" },
   { label: "胰島素與血糖", href: "/articles/insulin-blood-sugar" },
@@ -42,21 +87,45 @@ const learningPoints = [
 ---
 
 <BaseLayout
-  title="歡迎來到 CNFCD | CNFCD 知識入口"
-  description="CNFCD.TW 是整理代謝健康、飲食節奏、胰島素敏感度、腸道、睡眠與體重管理知識的入口網站。"
+  title="看懂身體為什麼會卡住 | CNFCD 知識入口"
+  description="CNFCD.TW 整理中年代謝、產後復原、復胖循環、健檢紅字、胰島素敏感度、腸道、睡眠與體重管理知識。"
   canonicalPath="/"
 >
   <section class="hero panel hero-panel">
     <p class="eyebrow">CNFCD.TW</p>
-    <h1>歡迎來到 CNFCD</h1>
-    <p class="hero-subtitle">重新理解代謝、飲食與身體節奏</p>
+    <h1>看懂身體為什麼會卡住</h1>
+    <p class="hero-subtitle">
+      中年代謝、產後復原、復胖循環、健檢紅字，許多看似不同的問題，其實來自同一套機制。
+    </p>
     <p class="hero-copy">
       CNFCD.TW
-      是一個整理代謝健康、飲食節奏、胰島素敏感度、腸道、睡眠與體重管理知識的入口網站。這裡不談銷售，先幫你看懂身體為什麼會卡住。
+      整理代謝健康、飲食節奏、胰島素敏感度、腸道、睡眠與體重管理的知識。這裡不談銷售，先幫你看懂。
     </p>
   </section>
 
   <HeroCardGrid cards={heroCards} />
+
+  <section class="panel audience-panel">
+    <div class="section-heading">
+      <p class="eyebrow">Audience Routes</p>
+      <h2>你是哪種人？</h2>
+      <p class="section-intro">
+        如果你剛進來，不必先懂所有名詞。先從自己的情境進入，再回到主題分類慢慢讀。
+      </p>
+    </div>
+    <div class="audience-grid">
+      {
+        audiencePaths.map((item) => (
+          <a class="audience-card" href={item.href}>
+            <span>{item.label}</span>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+            <small aria-hidden="true">閱讀路徑 →</small>
+          </a>
+        ))
+      }
+    </div>
+  </section>
 
   <FlowDiagram />
 
