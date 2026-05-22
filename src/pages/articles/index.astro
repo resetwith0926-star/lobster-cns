@@ -81,8 +81,16 @@ const featuredPrinciples = principleArticles.slice(0, 4);
           <ul class="article-preview-list">
             {group.items.slice(0, 4).map((article) => (
               <li>
-                <span>{article.title}</span>
-                <small>{article.source}</small>
+                <a
+                  href={article.url}
+                  target={article.url.startsWith("http") ? "_blank" : undefined}
+                  rel={
+                    article.url.startsWith("http") ? "noreferrer" : undefined
+                  }
+                >
+                  <span>{article.title}</span>
+                  <small>{article.source}</small>
+                </a>
               </li>
             ))}
           </ul>

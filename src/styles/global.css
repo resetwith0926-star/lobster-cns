@@ -570,6 +570,22 @@ button {
   margin-bottom: 8px;
 }
 
+.article-preview-list a {
+  display: block;
+  border-radius: 12px;
+  padding: 6px 8px;
+  margin-left: -8px;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.article-preview-list a:hover,
+.article-preview-list a:focus-visible {
+  background: rgba(255, 255, 255, 0.055);
+  color: var(--text-strong);
+}
+
 .article-preview-list li span,
 .article-preview-list li small {
   display: block;
