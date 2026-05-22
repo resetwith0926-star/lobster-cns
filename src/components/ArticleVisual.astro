@@ -1,0 +1,58 @@
+---
+const { visual } = Astro.props;
+const centerLabel = visual.center ?? visual.title;
+---
+
+<section
+  class={`panel article-visual visual-${visual.type}`}
+  aria-label={visual.title}
+>
+  <div class="visual-heading">
+    <p class="eyebrow">Visual Map</p>
+    <h2>{visual.title}</h2>
+  </div>
+
+  {
+    visual.type === "mindmap" ? (
+      <div class="mindmap-board">
+        <div class="mindmap-center">{centerLabel}</div>
+        <div class="mindmap-nodes">
+          {visual.nodes.map((node) => (
+            <span>{node}</span>
+          ))}
+        </div>
+      </div>
+    ) : visual.type === "risk" ? (
+      <div class="risk-grid">
+        {visual.nodes.map((node, index) => (
+          <div class="risk-node">
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <strong>{node}</strong>
+          </div>
+        ))}
+      </div>
+    ) : visual.type === "compare" ? (
+      <div class="compare-board">
+        <div>
+          <span>常見簡化</span>
+          <strong>{visual.nodes[0]}</strong>
+        </div>
+        <div>
+          <span>代謝視角</span>
+          <strong>{visual.nodes.slice(1).join(" / ")}</strong>
+        </div>
+      </div>
+    ) : (
+      <div class={`flow-board flow-${visual.type}`}>
+        {visual.nodes.map((node, index) => (
+          <>
+            <span class="flow-node">{node}</span>
+            {index < visual.nodes.length - 1 && (
+              <span class="flow-connector">→</span>
+            )}
+          </>
+        ))}
+      </div>
+    )
+  }
+</section>

@@ -13,6 +13,12 @@ const { category } = Astro.props;
 const items = articles
   .filter((article) => article.category === category.title)
   .sort((a, b) => a.recommendedOrder - b.recommendedOrder);
+
+const linkLabel = (source) => {
+  if (source === "站內清洗文") return "閱讀站內清洗版";
+  if (source === "觀念短文") return "閱讀站內短文";
+  return "前往原站文章";
+};
 ---
 
 <BaseLayout
@@ -46,10 +52,10 @@ const items = articles
           <a
             class="text-link"
             href={article.url}
-            target={article.source === "原站文章" ? "_blank" : undefined}
-            rel={article.source === "原站文章" ? "noreferrer" : undefined}
+            target={article.url.startsWith("http") ? "_blank" : undefined}
+            rel={article.url.startsWith("http") ? "noreferrer" : undefined}
           >
-            {article.source === "原站文章" ? "前往原站文章" : "閱讀站內短文"} →
+            {linkLabel(article.source)} →
           </a>
         </article>
       ))

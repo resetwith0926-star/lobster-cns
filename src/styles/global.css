@@ -497,6 +497,7 @@ button {
 }
 
 .note-article,
+.knowledge-article,
 .prose-section {
   display: grid;
   gap: 18px;
@@ -504,6 +505,205 @@ button {
 
 .prose-section p + p {
   margin-top: 14px;
+}
+
+.article-hero h1 {
+  font-size: clamp(2rem, 7vw, 4rem);
+}
+
+.digest-panel,
+.article-visual,
+.article-body {
+  padding: 22px;
+}
+
+.digest-copy {
+  display: grid;
+  gap: 12px;
+}
+
+.digest-copy p,
+.article-body p,
+.article-body li,
+.article-body blockquote {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.9;
+}
+
+.takeaway-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.takeaway-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.takeaway-card span,
+.risk-node span {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.takeaway-card p {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+.visual-heading {
+  margin-bottom: 18px;
+}
+
+.visual-heading h2 {
+  margin: 0;
+  font-size: 1.45rem;
+}
+
+.flow-board {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.flow-node,
+.mindmap-center,
+.mindmap-nodes span,
+.risk-node,
+.compare-board > div {
+  border: 1px solid var(--line-strong);
+  background:
+    linear-gradient(145deg, rgba(213, 109, 86, 0.14), transparent),
+    rgba(255, 255, 255, 0.035);
+}
+
+.flow-node {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 10px 16px;
+}
+
+.flow-connector {
+  color: var(--accent);
+}
+
+.mindmap-board {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+
+.mindmap-center {
+  display: grid;
+  min-height: 118px;
+  width: min(100%, 260px);
+  place-items: center;
+  border-radius: 999px;
+  color: var(--text);
+  font-family:
+    "Iowan Old Style", "Times New Roman", "Noto Serif TC", Georgia, serif;
+  font-size: 1.55rem;
+}
+
+.mindmap-nodes,
+.risk-grid {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.mindmap-nodes span {
+  display: block;
+  border-radius: 16px;
+  padding: 14px 16px;
+  text-align: center;
+}
+
+.risk-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.risk-node {
+  display: grid;
+  gap: 12px;
+  min-height: 110px;
+  align-content: space-between;
+  border-radius: 18px;
+  padding: 16px;
+}
+
+.risk-node strong {
+  font-size: 1.1rem;
+}
+
+.compare-board {
+  display: grid;
+  gap: 12px;
+}
+
+.compare-board > div {
+  display: grid;
+  gap: 10px;
+  border-radius: 20px;
+  padding: 18px;
+}
+
+.compare-board span {
+  color: var(--accent);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.compare-board strong {
+  font-size: 1.1rem;
+  line-height: 1.55;
+}
+
+.article-body {
+  display: grid;
+  gap: 14px;
+}
+
+.article-body h2 {
+  margin: 26px 0 0;
+  color: var(--text);
+  font-size: 1.45rem;
+}
+
+.article-body h2:first-of-type {
+  margin-top: 0;
+}
+
+.article-body p,
+.article-body ul,
+.article-body blockquote {
+  margin: 0;
+}
+
+.article-body ul {
+  display: grid;
+  gap: 8px;
+  padding-left: 24px;
+}
+
+.article-body blockquote {
+  border-left: 3px solid var(--accent);
+  padding: 10px 0 10px 18px;
+  color: #f0d8d0;
 }
 
 :focus-visible {
@@ -525,6 +725,15 @@ button {
   .category-overview {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .takeaway-grid,
+  .mindmap-nodes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .compare-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 520px) {
@@ -536,6 +745,10 @@ button {
     align-items: flex-start;
     flex-direction: column;
     gap: 4px;
+  }
+
+  .risk-grid {
+    grid-template-columns: 1fr;
   }
 }
 

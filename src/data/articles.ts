@@ -12,11 +12,43 @@ export type ArticleCategory =
   | "常見迷思"
   | "案例與研究整理";
 
-export type ArticleSource = "觀念短文" | "原站文章";
+export type ArticleSource = "觀念短文" | "站內清洗文" | "原站文章";
 
 export interface ArticleSection {
   heading: string;
   body: string[];
+}
+
+export interface ArticleContentBlock {
+  type: "heading" | "paragraph" | "list" | "quote";
+  text?: string;
+  items?: string[];
+}
+
+export interface ArticleVisual {
+  type:
+    | "flow"
+    | "mindmap"
+    | "cycle"
+    | "risk"
+    | "decision"
+    | "compare"
+    | "system";
+  title: string;
+  center?: string;
+  nodes: string[];
+}
+
+export interface CleanArticleContent {
+  slug: string;
+  originalSlug: string;
+  title: string;
+  originalUrl: string;
+  importedAt: string;
+  summary: string[];
+  keyTakeaways: string[];
+  visual: ArticleVisual;
+  blocks: ArticleContentBlock[];
 }
 
 export interface ArticleEntry {
@@ -25,11 +57,13 @@ export interface ArticleEntry {
   description: string;
   category: ArticleCategory;
   url: string;
+  originalUrl?: string;
   tags: string[];
   recommendedOrder: number;
   source: ArticleSource;
   sourceFile?: string;
   sections?: ArticleSection[];
+  content?: CleanArticleContent;
 }
 
 export interface ArticleCategoryMeta {
@@ -338,6 +372,10 @@ const csvRows = parseCsv(
   readFileSync("src/data/cnfcd-life-index.csv", "utf-8"),
 );
 
+const cleanedLifeArticles = JSON.parse(
+  readFileSync("src/data/life-articles.json", "utf-8"),
+) as Record<string, CleanArticleContent>;
+
 const excludedUrlParts = [
   "/en/",
   "privacy",
@@ -389,16 +427,20 @@ const externalArticles = uniqueCanonicalRows(csvRows)
   )
   .map((row, index): ArticleEntry => {
     const slug = slugFromUrl(row.canonical);
+    const articleSlug = `life-${slug}`;
     const category = categoryFromSlug(slug);
+    const content = cleanedLifeArticles[articleSlug];
     return {
-      slug: `life-${slug}`,
+      slug: articleSlug,
       title: titleFromSlug(slug),
       description: descriptionFor(category, slug),
       category,
-      url: row.canonical,
+      url: content ? `/library/${articleSlug}` : row.canonical,
+      originalUrl: row.canonical,
       tags: tagsFromSlug(slug, category),
       recommendedOrder: index + 20,
-      source: "原站文章",
+      source: content ? "站內清洗文" : "原站文章",
+      content,
     };
   });
 
@@ -415,6 +457,7 @@ export const articleStats = {
   total: articles.length,
   principle: principleArticles.length,
   external: externalArticles.length,
+  cleaned: externalArticles.filter((article) => article.content).length,
 };
 
 function parseCsv(text: string): CsvRow[] {
@@ -478,7 +521,7 @@ function categoryFromSlug(slug: string): ArticleCategory {
       "about-cnfcd",
       "what-is-cnfcd",
       "cnfcd-faq",
-      "complete-guide",
+      "cnfcd-complete-guide",
       "cnfcd-not",
       "cnfcd-product",
       "who-is-cnfcd",

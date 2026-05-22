@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "import:articles": "node tools/import-life-articles.mjs",
     "preview": "astro preview",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{astro,ts,css}\" astro.config.mjs eslint.config.js .prettierrc.json package.json tsconfig.json"

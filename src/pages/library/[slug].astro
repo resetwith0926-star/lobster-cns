@@ -1,0 +1,116 @@
+---
+import ArticleVisual from "../../components/ArticleVisual.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { categorySlugMap, articles } from "../../data/articles";
+
+export function getStaticPaths() {
+  return articles
+    .filter((article) => article.content)
+    .map((article) => ({
+      params: { slug: article.slug },
+      props: { article },
+    }));
+}
+
+const { article } = Astro.props;
+const content = article.content;
+const updatedDate = content
+  ? new Intl.DateTimeFormat("zh-Hant-TW", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(new Date(content.importedAt))
+  : "";
+---
+
+<BaseLayout
+  title={`${article.title} | CNFCD 知識庫`}
+  description={article.description}
+  canonicalPath={`/library/${article.slug}`}
+>
+  <article class="knowledge-article">
+    <header class="panel page-heading article-hero">
+      <p class="eyebrow">Cleaned Article</p>
+      <h1>{article.title}</h1>
+      <p class="section-intro">{article.description}</p>
+      <div class="note-meta">
+        <span>{article.category}</span>
+        <span>站內清洗版</span>
+        <span>更新 {updatedDate}</span>
+      </div>
+    </header>
+
+    {
+      content && content.summary.length > 0 && (
+        <section class="panel digest-panel" aria-label="文章摘要">
+          <div class="section-heading inline-heading">
+            <p class="eyebrow">Digest</p>
+            <h2>先抓住這篇的核心</h2>
+          </div>
+          <div class="digest-copy">
+            {content.summary.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    {
+      content && content.keyTakeaways.length > 0 && (
+        <section class="takeaway-grid" aria-label="重點整理">
+          {content.keyTakeaways.map((item, index) => (
+            <div class="takeaway-card">
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <p>{item}</p>
+            </div>
+          ))}
+        </section>
+      )
+    }
+
+    {content && <ArticleVisual visual={content.visual} />}
+
+    {
+      content && (
+        <section class="panel article-body" aria-label="清洗後文章內容">
+          <p class="eyebrow">Clean Reading</p>
+          {content.blocks.map((block) => {
+            if (block.type === "heading") return <h2>{block.text}</h2>;
+            if (block.type === "quote")
+              return <blockquote>{block.text}</blockquote>;
+            if (block.type === "list") {
+              return (
+                <ul>
+                  {block.items?.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              );
+            }
+            return <p>{block.text}</p>;
+          })}
+        </section>
+      )
+    }
+
+    <nav class="panel pager-nav" aria-label="文章導覽">
+      <a href={`/articles/${categorySlugMap[article.category]}`}>
+        <span>回到「{article.category}」分類</span>
+        <span aria-hidden="true">→</span>
+      </a>
+      <a href="/articles">
+        <span>回到文章地圖</span>
+        <span aria-hidden="true">→</span>
+      </a>
+      {
+        article.originalUrl && (
+          <a href={article.originalUrl} target="_blank" rel="noreferrer">
+            <span>查看原始文章來源</span>
+            <span aria-hidden="true">↗</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</BaseLayout>
