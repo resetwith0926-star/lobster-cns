@@ -30,8 +30,11 @@ const items = articles
     {
       items.map((article) => (
         <article class="panel article-card">
-          <div class="article-order">
-            推薦順序 {String(article.recommendedOrder).padStart(2, "0")}
+          <div class="article-meta-row">
+            <span class="article-order">
+              推薦順序 {String(article.recommendedOrder).padStart(2, "0")}
+            </span>
+            <span class="source-badge">{article.source}</span>
           </div>
           <h2>{article.title}</h2>
           <p>{article.description}</p>
@@ -43,10 +46,10 @@ const items = articles
           <a
             class="text-link"
             href={article.url}
-            target="_blank"
-            rel="noreferrer"
+            target={article.source === "原站文章" ? "_blank" : undefined}
+            rel={article.source === "原站文章" ? "noreferrer" : undefined}
           >
-            前往原站文章 →
+            {article.source === "原站文章" ? "前往原站文章" : "閱讀站內短文"} →
           </a>
         </article>
       ))

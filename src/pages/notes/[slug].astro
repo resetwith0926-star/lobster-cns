@@ -1,0 +1,53 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { categorySlugMap, principleArticles } from "../../data/articles";
+
+export function getStaticPaths() {
+  return principleArticles.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+---
+
+<BaseLayout
+  title={`${article.title} | CNFCD 原理短文`}
+  description={article.description}
+  canonicalPath={`/notes/${article.slug}`}
+>
+  <article class="note-article">
+    <header class="panel page-heading">
+      <p class="eyebrow">Principle Note</p>
+      <h1>{article.title}</h1>
+      <p class="section-intro">{article.description}</p>
+      <div class="note-meta">
+        <span>{article.category}</span>
+        <span>{article.source}</span>
+      </div>
+    </header>
+
+    {
+      article.sections?.map((section) => (
+        <section class="panel prose-section">
+          <h2>{section.heading}</h2>
+          {section.body.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </section>
+      ))
+    }
+
+    <nav class="panel pager-nav" aria-label="文章導覽">
+      <a href={`/articles/${categorySlugMap[article.category]}`}>
+        <span>回到相關分類</span>
+        <span aria-hidden="true">→</span>
+      </a>
+      <a href="/articles">
+        <span>回到文章地圖</span>
+        <span aria-hidden="true">→</span>
+      </a>
+    </nav>
+  </article>
+</BaseLayout>

@@ -241,6 +241,68 @@ button {
   gap: 14px;
 }
 
+.library-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.stat-panel {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stat-panel span {
+  display: block;
+  color: var(--text);
+  font-family:
+    "Iowan Old Style", "Times New Roman", "Noto Serif TC", Georgia, serif;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.stat-panel p,
+.category-count,
+.article-preview-list small,
+.compact-list small,
+.note-meta span {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.principle-strip {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 6px 0 18px;
+}
+
+.inline-heading {
+  padding-bottom: 12px;
+}
+
+.compact-list {
+  display: grid;
+  gap: 10px;
+  padding: 0 22px;
+}
+
+.compact-list a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.compact-list a:hover,
+.compact-list a:focus-visible {
+  color: #f4c2b5;
+}
+
 .feature-card,
 .concept-card {
   display: grid;
@@ -349,6 +411,15 @@ button {
   line-height: 1.9;
 }
 
+.article-preview-list li {
+  margin-bottom: 8px;
+}
+
+.article-preview-list li span,
+.article-preview-list li small {
+  display: block;
+}
+
 .reading-list {
   display: grid;
   gap: 10px;
@@ -399,11 +470,40 @@ button {
 }
 
 .article-order {
-  margin-bottom: 12px;
   color: var(--accent);
   font-size: 0.8rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.article-meta-row,
+.note-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.source-badge,
+.note-meta span {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--muted);
+}
+
+.note-article,
+.prose-section {
+  display: grid;
+  gap: 18px;
+}
+
+.prose-section p + p {
+  margin-top: 14px;
 }
 
 :focus-visible {
@@ -424,6 +524,18 @@ button {
   .concept-grid,
   .category-overview {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .library-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .compact-list a {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
   }
 }
 

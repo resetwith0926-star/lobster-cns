@@ -3,7 +3,14 @@ import globals from "globals";
 
 export default [
   {
-    ignores: ["dist", ".astro", "node_modules", "lobster-cns/**"],
+    ignores: [
+      "dist",
+      ".astro",
+      "node_modules",
+      "lobster-cns/**",
+      "VoxCPM/**",
+      "tools/**",
+    ],
   },
   ...astro.configs["flat/recommended"],
   {

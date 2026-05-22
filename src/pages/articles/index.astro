@@ -1,9 +1,10 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
+  articleStats,
   articleCategories,
   articles,
-  categorySlugMap,
+  principleArticles,
 } from "../../data/articles";
 
 const groupedArticles = articleCategories.map((category) => ({
@@ -12,6 +13,8 @@ const groupedArticles = articleCategories.map((category) => ({
     .filter((article) => article.category === category.title)
     .sort((a, b) => a.recommendedOrder - b.recommendedOrder),
 }));
+
+const featuredPrinciples = principleArticles.slice(0, 4);
 ---
 
 <BaseLayout
@@ -23,9 +26,41 @@ const groupedArticles = articleCategories.map((category) => ({
     <p class="eyebrow">Article Map</p>
     <h1>CNFCD 文章地圖</h1>
     <p class="section-intro">
-      這一頁負責整理來自 cnfcd.life
-      的文章入口。現在先以可擴充的資料結構建立分類，之後可以逐步補上真實文章連結與摘要。
+      這一頁把站內原理短文與 cnfcd.life 原站文章放在同一張地圖裡。只收錄
+      CNFCD、代謝、血糖、腸道、睡眠、外食與疾病風險相關內容，不放銷售導向頁面。
     </p>
+  </section>
+
+  <section class="library-stats" aria-label="文章庫統計">
+    <div class="stat-panel">
+      <span>{articleStats.total}</span>
+      <p>知識條目</p>
+    </div>
+    <div class="stat-panel">
+      <span>{articleStats.principle}</span>
+      <p>站內原理短文</p>
+    </div>
+    <div class="stat-panel">
+      <span>{articleStats.external}</span>
+      <p>原站文章導讀</p>
+    </div>
+  </section>
+
+  <section class="principle-strip" aria-label="推薦先讀">
+    <div class="section-heading inline-heading">
+      <p class="eyebrow">Start Here</p>
+      <h2>先讀這幾篇原理</h2>
+    </div>
+    <div class="compact-list">
+      {
+        featuredPrinciples.map((article) => (
+          <a href={article.url}>
+            <span>{article.title}</span>
+            <small>{article.category}</small>
+          </a>
+        ))
+      }
+    </div>
   </section>
 
   <section class="category-overview" aria-label="文章分類">
@@ -42,9 +77,13 @@ const groupedArticles = articleCategories.map((category) => ({
             </a>
           </div>
           <p>{group.description}</p>
+          <p class="category-count">{group.items.length} 篇</p>
           <ul class="article-preview-list">
-            {group.items.slice(0, 2).map((article) => (
-              <li>{article.title}</li>
+            {group.items.slice(0, 4).map((article) => (
+              <li>
+                <span>{article.title}</span>
+                <small>{article.source}</small>
+              </li>
             ))}
           </ul>
         </article>
