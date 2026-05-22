@@ -1,0 +1,48 @@
+---
+import { concepts } from "../data/concepts";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const conceptLinks = [
+  "/articles/metabolic-repair",
+  "/articles/insulin-blood-sugar",
+  "/articles/insulin-blood-sugar",
+  "/articles/metabolic-repair",
+  "/articles/gut-inflammation",
+  "/articles/sleep-stress",
+  "/articles/eating-out",
+  "/articles/cases-research",
+];
+---
+
+<BaseLayout
+  title="核心觀念 | CNFCD 知識入口"
+  description="用卡片方式快速掌握 CNFCD 的核心觀念，包括代謝、血糖、腸道、睡眠與外食節奏。"
+  canonicalPath="/concepts"
+>
+  <section class="panel page-heading">
+    <p class="eyebrow">Core Concepts</p>
+    <h1>核心觀念</h1>
+    <p class="section-intro">
+      先建立共同語言，再去讀文章會更容易看懂每個主題之間的關係。
+    </p>
+  </section>
+
+  <section class="concept-grid" aria-label="核心觀念卡片">
+    {
+      concepts.map((concept, index) => (
+        <a
+          class="panel concept-card"
+          id={concept.id}
+          href={conceptLinks[index]}
+        >
+          <div class="concept-topline">
+            <p class="eyebrow">Concept {String(index + 1).padStart(2, "0")}</p>
+            <span aria-hidden="true">→</span>
+          </div>
+          <h2>{concept.title}</h2>
+          <p>{concept.description}</p>
+        </a>
+      ))
+    }
+  </section>
+</BaseLayout>

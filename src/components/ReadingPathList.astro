@@ -1,0 +1,24 @@
+---
+const { items } = Astro.props;
+---
+
+<section class="panel">
+  <div class="section-heading">
+    <p class="eyebrow">Reading Paths</p>
+    <h2>閱讀路徑</h2>
+  </div>
+  <nav aria-label="閱讀路徑">
+    <ul class="reading-list">
+      {
+        items.map((item) => (
+          <li>
+            <a href={item.href}>
+              <span>{item.label}</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</section>

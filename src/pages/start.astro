@@ -1,0 +1,67 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const sections = [
+  {
+    title: "CNFCD 是什麼",
+    content:
+      "CNFCD 可以把它理解成一套觀察代謝健康的方法。它不是某一種節食法，也不是單一產品，而是一個幫助你重新理解身體節奏、飲食結構與恢復條件的框架。",
+  },
+  {
+    title: "它想解決的問題",
+    content:
+      "很多人不是不知道要少吃或多動，而是不知道為什麼自己總是卡在疲累、容易餓、飲食失控、體重停滯或反覆復胖。CNFCD 試著先把這些卡住的原因拆開來看。",
+  },
+  {
+    title: "為什麼代謝不能只看熱量",
+    content:
+      "熱量當然重要，但身體是否容易穩定、是否能順利動員能量，還會受到血糖波動、睡眠品質、壓力負荷、活動量與飲食節奏影響。只看熱量，往往會忽略掉讓身體『不願意配合』的背景因素。",
+  },
+  {
+    title: "為什麼飲食節奏、睡眠、壓力、腸道要一起看",
+    content:
+      "這幾個因素會彼此牽動。睡不好可能讓食慾更不穩，壓力過高可能讓身體維持在警戒狀態，腸道不適也可能干擾飽足感與日常狀態。CNFCD 的做法，是把它們放回同一張地圖裡理解。",
+  },
+  {
+    title: "接下來可以讀什麼",
+    content:
+      "如果你剛開始接觸，可以先到核心觀念頁建立共同語言，再依照文章地圖挑選最貼近自己問題的分類，例如血糖、睡眠、外食或案例整理。",
+  },
+];
+---
+
+<BaseLayout
+  title="快速認識 CNFCD | CNFCD 知識入口"
+  description="用簡單語言理解 CNFCD 是什麼、它試著解決哪些代謝與節奏上的問題。"
+  canonicalPath="/start"
+  pageTitle="On this page"
+>
+  <section class="panel page-heading">
+    <p class="eyebrow">Quick Start</p>
+    <h1>快速認識 CNFCD</h1>
+    <p class="section-intro">
+      這一頁用最簡單的方式，先幫你建立 CNFCD
+      的基本理解：它是一套方法，不是口號。
+    </p>
+  </section>
+
+  {
+    sections.map((section) => (
+      <section class="panel prose-section">
+        <h2>{section.title}</h2>
+        <p>{section.content}</p>
+      </section>
+    ))
+  }
+
+  <nav class="panel pager-nav" aria-label="延伸閱讀">
+    <a href="/concepts">
+      <span>下一篇：核心觀念</span>
+      <span aria-hidden="true">→</span>
+    </a>
+    <a href="/articles">
+      <span>回到文章地圖</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </nav>
+</BaseLayout>

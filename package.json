@@ -1,0 +1,24 @@
+{
+  "name": "cnfcd-tw-knowledge-portal",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "lint": "eslint .",
+    "format": "prettier --write \"src/**/*.{astro,ts,css}\" astro.config.mjs eslint.config.js .prettierrc.json package.json tsconfig.json"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^5.9.2"
+  },
+  "devDependencies": {
+    "eslint": "^9.27.0",
+    "eslint-plugin-astro": "^1.3.1",
+    "globals": "^16.1.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1"
+  }
+}

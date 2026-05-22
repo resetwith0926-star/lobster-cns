@@ -1,0 +1,115 @@
+---
+import "../styles/global.css";
+
+const {
+  title,
+  description,
+  canonicalPath = "/",
+  pageTitle = "On this page",
+} = Astro.props;
+
+const siteUrl = new URL(canonicalPath, Astro.site);
+const socialImage = new URL("/og/cnfcd-portal-cover.svg", Astro.site);
+
+const navItems = [
+  { href: "/", label: "首頁" },
+  { href: "/start", label: "快速認識" },
+  { href: "/concepts", label: "核心觀念" },
+  { href: "/articles", label: "文章地圖" },
+];
+---
+
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={siteUrl.toString()} />
+    <meta name="robots" content="index,follow" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_TW" />
+    <meta property="og:site_name" content="CNFCD 知識入口" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={siteUrl.toString()} />
+    <meta property="og:image" content={socialImage.toString()} />
+    <meta property="og:image:alt" content="CNFCD 知識入口網站封面" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage.toString()} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到主要內容</a>
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="brand-row">
+          <button
+            class="icon-button"
+            type="button"
+            aria-label="開啟導覽"
+            aria-expanded="false"
+            aria-controls="site-nav"
+            data-nav-toggle
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <a class="site-brand" href="/">CNFCD 知識入口</a>
+          <span class="page-indicator">{pageTitle}</span>
+        </div>
+        <nav id="site-nav" class="site-nav" aria-label="主要導覽" data-nav>
+          {
+            navItems.map((item) => (
+              <a
+                href={item.href}
+                class:list={{ active: Astro.url.pathname === item.href }}
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </header>
+
+      <div class="layout-grid">
+        <aside class="side-nav" aria-label="章節導覽">
+          <p class="eyebrow">Knowledge Map</p>
+          <nav class="side-links">
+            {
+              navItems.map((item) => (
+                <a
+                  href={item.href}
+                  class:list={{ active: Astro.url.pathname === item.href }}
+                >
+                  <span>{item.label}</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              ))
+            }
+          </nav>
+        </aside>
+
+        <main id="main-content" class="content-shell">
+          <slot />
+        </main>
+      </div>
+    </div>
+
+    <script is:inline>
+      const toggle = document.querySelector("[data-nav-toggle]");
+      const nav = document.querySelector("[data-nav]");
+
+      if (toggle instanceof HTMLButtonElement && nav instanceof HTMLElement) {
+        toggle.addEventListener("click", () => {
+          const expanded = toggle.getAttribute("aria-expanded") === "true";
+          toggle.setAttribute("aria-expanded", String(!expanded));
+          nav.dataset.open = String(!expanded);
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#111315"/>
+  <circle cx="205" cy="126" r="188" fill="#D56D56" fill-opacity="0.17"/>
+  <rect x="80" y="86" width="1040" height="458" rx="34" fill="#171A1D" stroke="rgba(255,255,255,0.1)"/>
+  <text x="120" y="210" fill="#D56D56" font-family="Arial, sans-serif" font-size="28" letter-spacing="6">CNFCD.TW</text>
+  <text x="120" y="318" fill="#F7F4EF" font-family="Georgia, serif" font-size="74">CNFCD 知識入口</text>
+  <text x="120" y="388" fill="#B8B1A8" font-family="Arial, sans-serif" font-size="34">重新理解代謝、飲食與身體節奏</text>
+  <rect x="120" y="438" width="178" height="54" rx="27" fill="#2B2F34"/>
+  <text x="160" y="472" fill="#F7F4EF" font-family="Arial, sans-serif" font-size="24">知識導覽</text>
+  <rect x="318" y="438" width="208" height="54" rx="27" fill="#2B2F34"/>
+  <text x="358" y="472" fill="#F7F4EF" font-family="Arial, sans-serif" font-size="24">文章地圖</text>
+</svg>

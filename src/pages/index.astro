@@ -1,0 +1,73 @@
+---
+import FlowDiagram from "../components/FlowDiagram.astro";
+import HeroCardGrid from "../components/HeroCardGrid.astro";
+import ReadingPathList from "../components/ReadingPathList.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const heroCards = [
+  {
+    title: "快速認識 CNFCD",
+    description: "用 3 分鐘理解 CNFCD 的核心觀念與方法框架。",
+    href: "/start",
+  },
+  {
+    title: "核心觀念",
+    description: "從代謝、血糖、腸道、睡眠與壓力，重新建立對身體的理解。",
+    href: "/concepts",
+  },
+  {
+    title: "文章地圖",
+    description: "依照主題快速找到原網站文章與延伸閱讀。",
+    href: "/articles",
+  },
+];
+
+const readingPaths = [
+  { label: "新手必讀", href: "/articles/beginner" },
+  { label: "胰島素與血糖", href: "/articles/insulin-blood-sugar" },
+  { label: "腸道與發炎", href: "/articles/gut-inflammation" },
+  { label: "睡眠與壓力", href: "/articles/sleep-stress" },
+  { label: "外食族指南", href: "/articles/eating-out" },
+  { label: "案例與研究整理", href: "/articles/cases-research" },
+];
+
+const learningPoints = [
+  "代謝不是意志力問題",
+  "體重管理不只看熱量",
+  "睡眠與壓力會影響脂肪動員",
+  "腸道與發炎會影響食慾與狀態",
+  "外食族也能建立穩定節奏",
+];
+---
+
+<BaseLayout
+  title="歡迎來到 CNFCD | CNFCD 知識入口"
+  description="CNFCD.TW 是整理代謝健康、飲食節奏、胰島素敏感度、腸道、睡眠與體重管理知識的入口網站。"
+  canonicalPath="/"
+>
+  <section class="hero panel hero-panel">
+    <p class="eyebrow">CNFCD.TW</p>
+    <h1>歡迎來到 CNFCD</h1>
+    <p class="hero-subtitle">重新理解代謝、飲食與身體節奏</p>
+    <p class="hero-copy">
+      CNFCD.TW
+      是一個整理代謝健康、飲食節奏、胰島素敏感度、腸道、睡眠與體重管理知識的入口網站。這裡不談銷售，先幫你看懂身體為什麼會卡住。
+    </p>
+  </section>
+
+  <HeroCardGrid cards={heroCards} />
+
+  <FlowDiagram />
+
+  <section class="panel">
+    <div class="section-heading">
+      <p class="eyebrow">Learning Outcomes</p>
+      <h2>你將學到什麼</h2>
+    </div>
+    <ul class="bullet-list">
+      {learningPoints.map((point) => <li>{point}</li>)}
+    </ul>
+  </section>
+
+  <ReadingPathList items={readingPaths} />
+</BaseLayout>

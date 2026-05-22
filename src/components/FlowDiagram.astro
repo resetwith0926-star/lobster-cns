@@ -1,0 +1,32 @@
+---
+const steps = ["飲食結構", "血糖穩定", "胰島素敏感度", "代謝修復", "身體回穩"];
+const supportFactors = ["睡眠", "壓力", "腸道"];
+---
+
+<section class="panel">
+  <div class="section-heading">
+    <p class="eyebrow">Core Flow</p>
+    <h2>CNFCD 的核心流程</h2>
+  </div>
+  <div
+    class="flow-diagram"
+    role="img"
+    aria-label="飲食結構到身體回穩的核心流程圖"
+  >
+    {
+      steps.map((step, index) => (
+        <>
+          <div class="flow-step">{step}</div>
+          {index < steps.length - 1 && (
+            <div class="flow-arrow" aria-hidden="true">
+              →
+            </div>
+          )}
+        </>
+      ))
+    }
+  </div>
+  <div class="chip-row" aria-label="輔助因素">
+    {supportFactors.map((factor) => <span class="chip">{factor}</span>)}
+  </div>
+</section>

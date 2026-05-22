@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import {
+  articleCategories,
+  articles,
+  categorySlugMap,
+} from "../../data/articles";
+
+const groupedArticles = articleCategories.map((category) => ({
+  ...category,
+  items: articles
+    .filter((article) => article.category === category.title)
+    .sort((a, b) => a.recommendedOrder - b.recommendedOrder),
+}));
+---
+
+<BaseLayout
+  title="CNFCD 文章地圖 | CNFCD 知識入口"
+  description="依照主題快速找到 CNFCD 既有文章與延伸閱讀，建立自己的閱讀順序。"
+  canonicalPath="/articles"
+>
+  <section class="panel page-heading">
+    <p class="eyebrow">Article Map</p>
+    <h1>CNFCD 文章地圖</h1>
+    <p class="section-intro">
+      這一頁負責整理來自 cnfcd.life
+      的文章入口。現在先以可擴充的資料結構建立分類，之後可以逐步補上真實文章連結與摘要。
+    </p>
+  </section>
+
+  <section class="category-overview" aria-label="文章分類">
+    {
+      groupedArticles.map((group) => (
+        <article class="panel category-card">
+          <div class="category-card-head">
+            <div>
+              <p class="eyebrow">Category</p>
+              <h2>{group.title}</h2>
+            </div>
+            <a class="text-link" href={`/articles/${group.slug}`}>
+              查看路徑 →
+            </a>
+          </div>
+          <p>{group.description}</p>
+          <ul class="article-preview-list">
+            {group.items.slice(0, 2).map((article) => (
+              <li>{article.title}</li>
+            ))}
+          </ul>
+        </article>
+      ))
+    }
+  </section>
+</BaseLayout>

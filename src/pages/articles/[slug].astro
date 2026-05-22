@@ -1,0 +1,55 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { articleCategories, articles } from "../../data/articles";
+
+export function getStaticPaths() {
+  return articleCategories.map((category) => ({
+    params: { slug: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const items = articles
+  .filter((article) => article.category === category.title)
+  .sort((a, b) => a.recommendedOrder - b.recommendedOrder);
+---
+
+<BaseLayout
+  title={`${category.title} | CNFCD 文章地圖`}
+  description={category.description}
+  canonicalPath={`/articles/${category.slug}`}
+>
+  <section class="panel page-heading">
+    <p class="eyebrow">Reading Route</p>
+    <h1>{category.title}</h1>
+    <p class="section-intro">{category.description}</p>
+  </section>
+
+  <section class="article-stack" aria-label={category.title}>
+    {
+      items.map((article) => (
+        <article class="panel article-card">
+          <div class="article-order">
+            推薦順序 {String(article.recommendedOrder).padStart(2, "0")}
+          </div>
+          <h2>{article.title}</h2>
+          <p>{article.description}</p>
+          <div class="tag-row" aria-label="文章標籤">
+            {article.tags.map((tag) => (
+              <span class="chip">{tag}</span>
+            ))}
+          </div>
+          <a
+            class="text-link"
+            href={article.url}
+            target="_blank"
+            rel="noreferrer"
+          >
+            前往原站文章 →
+          </a>
+        </article>
+      ))
+    }
+  </section>
+</BaseLayout>
