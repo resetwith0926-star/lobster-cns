@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { articleCategories, articles } from "../data/articles";
 
 const {
   title,
@@ -16,6 +17,41 @@ const navItems = [
   { href: "/start", label: "快速認識" },
   { href: "/concepts", label: "核心觀念" },
   { href: "/articles", label: "文章地圖" },
+];
+
+const path = Astro.url.pathname;
+const librarySlug = path.match(/^\/library\/([^/]+)/)?.[1];
+const currentArticle = librarySlug
+  ? articles.find((article) => article.slug === librarySlug)
+  : undefined;
+const currentArticleCategorySlug = currentArticle
+  ? articleCategories.find(
+      (category) => category.title === currentArticle.category,
+    )?.slug
+  : undefined;
+const activeNav =
+  navItems.find(
+    (item) => path === item.href || path.startsWith(`${item.href}/`),
+  )?.label ?? "知識文件";
+const activeCategory =
+  currentArticle?.category ??
+  articleCategories.find((category) =>
+    path.startsWith(`/articles/${category.slug}`),
+  )?.title ??
+  activeNav;
+
+const sidebarGroups = [
+  {
+    title: "Start",
+    items: navItems,
+  },
+  {
+    title: "Article Routes",
+    items: articleCategories.map((category) => ({
+      href: `/articles/${category.slug}`,
+      label: category.title,
+    })),
+  },
 ];
 ---
 
@@ -43,51 +79,72 @@ const navItems = [
   </head>
   <body>
     <a class="skip-link" href="#main-content">跳到主要內容</a>
+    <div class="ambient-grid" aria-hidden="true"></div>
     <div class="site-shell">
-      <header class="site-header">
-        <div class="brand-row">
+      <header class="topbar">
+        <div class="topbar-inner">
           <button
-            class="icon-button"
+            class="menu-button"
             type="button"
             aria-label="開啟導覽"
             aria-expanded="false"
-            aria-controls="site-nav"
+            aria-controls="docs-sidebar"
             data-nav-toggle
           >
             <span></span>
             <span></span>
             <span></span>
           </button>
-          <a class="site-brand" href="/">CNFCD 知識入口</a>
-          <span class="page-indicator">{pageTitle}</span>
-        </div>
-        <nav id="site-nav" class="site-nav" aria-label="主要導覽" data-nav>
-          {
-            navItems.map((item) => (
-              <a
-                href={item.href}
-                class:list={{ active: Astro.url.pathname === item.href }}
-              >
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-      </header>
-
-      <div class="layout-grid">
-        <aside class="side-nav" aria-label="章節導覽">
-          <p class="eyebrow">Knowledge Map</p>
-          <nav class="side-links">
+          <a class="site-brand" href="/" aria-label="回到首頁">
+            <span class="brand-mark">C</span>
+            <span>
+              <strong>CNFCD</strong>
+              <small>知識入口</small>
+            </span>
+          </a>
+          <nav class="top-links" aria-label="主要導覽">
             {
               navItems.map((item) => (
-                <a
-                  href={item.href}
-                  class:list={{ active: Astro.url.pathname === item.href }}
-                >
-                  <span>{item.label}</span>
-                  <span aria-hidden="true">→</span>
+                <a href={item.href} class:list={{ active: path === item.href }}>
+                  {item.label}
                 </a>
+              ))
+            }
+          </nav>
+          <div class="context-pill" aria-label="目前頁面">
+            <span>{activeCategory}</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="docs-shell">
+        <aside
+          id="docs-sidebar"
+          class="docs-sidebar"
+          aria-label="文件導覽"
+          data-nav
+        >
+          <div class="sidebar-kicker">Knowledge System</div>
+          <nav class="side-links">
+            {
+              sidebarGroups.map((group) => (
+                <section class="sidebar-group">
+                  <p>{group.title}</p>
+                  {group.items.map((item) => (
+                    <a
+                      href={item.href}
+                      class:list={{
+                        active:
+                          path === item.href ||
+                          path.startsWith(`${item.href}/`) ||
+                          item.href ===
+                            `/articles/${currentArticleCategorySlug}`,
+                      }}
+                    >
+                      <span>{item.label}</span>
+                    </a>
+                  ))}
+                </section>
               ))
             }
           </nav>
@@ -96,6 +153,31 @@ const navItems = [
         <main id="main-content" class="content-shell">
           <slot />
         </main>
+
+        <aside class="toc-rail" aria-label="頁面脈絡">
+          <section class="toc-card">
+            <p class="eyebrow">{pageTitle}</p>
+            <h2>{activeCategory}</h2>
+            <p>{description}</p>
+          </section>
+          <section class="toc-card quiet-card">
+            <p class="rail-label">Static Knowledge Base</p>
+            <dl>
+              <div>
+                <dt>Format</dt>
+                <dd>Astro / GitHub Pages</dd>
+              </div>
+              <div>
+                <dt>Tone</dt>
+                <dd>原理、導讀、非銷售</dd>
+              </div>
+              <div>
+                <dt>Reading</dt>
+                <dd>Mobile-first docs</dd>
+              </div>
+            </dl>
+          </section>
+        </aside>
       </div>
     </div>
 
