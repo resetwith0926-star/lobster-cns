@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const recoveryLinks = [
+  { label: "回到首頁", href: "/" },
+  { label: "快速認識 CNFCD", href: "/start" },
+  { label: "核心觀念", href: "/concepts" },
+  { label: "文章地圖", href: "/articles" },
+];
+---
+
+<BaseLayout
+  title="找不到這一頁 | CNFCD 知識入口"
+  description="這個路徑目前不存在。你可以回到 CNFCD 知識入口，或從文章地圖重新選擇閱讀路徑。"
+  canonicalPath="/404"
+  pageTitle="Page not found"
+>
+  <section class="panel page-heading">
+    <p class="eyebrow">404</p>
+    <h1>找不到這一頁</h1>
+    <p class="section-intro">
+      這個連結可能還在 DNS 或 GitHub Pages
+      快取更新中，也可能是舊路徑。先回到知識入口，從穩定的閱讀路徑重新進入。
+    </p>
+  </section>
+
+  <section class="panel">
+    <div class="section-heading">
+      <p class="eyebrow">Recovery</p>
+      <h2>可以從這裡繼續</h2>
+    </div>
+    <nav aria-label="404 導覽">
+      <ul class="reading-list">
+        {
+          recoveryLinks.map((item) => (
+            <li>
+              <a href={item.href}>
+                <span>{item.label}</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </section>
+</BaseLayout>
