@@ -3,6 +3,241 @@ import ArticleVisual from "../../components/ArticleVisual.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { categorySlugMap, articles } from "../../data/articles";
 
+const pillarGuides = {
+  "life-insulin-resistance-complete-guide": {
+    introLinks: [
+      {
+        label: "如果你是 40 歲後突然瘦不下來，先讀這篇",
+        href: "/library/middle-age-metabolism-after-40",
+      },
+      {
+        label: "關於血糖如何波動，這篇講得更細",
+        href: "/notes/blood-sugar-rollercoaster",
+      },
+      {
+        label: "外食族的具體執行建議",
+        href: "/library/life-eating-out-fat-loss-complete-guide",
+      },
+    ],
+    pillarLinks: [
+      {
+        label: "40 歲後代謝變慢的真相",
+        href: "/library/middle-age-metabolism-after-40",
+        description: "把年齡、肌肉、睡眠與胰島素敏感度放在同一張圖裡看。",
+      },
+      {
+        label: "減脂停滯期完整解析",
+        href: "/library/life-fat-loss-plateau-complete-guide",
+        description: "理解為什麼身體會進入保護模式，而不是只靠少吃硬壓。",
+      },
+      {
+        label: "外食族減脂實戰",
+        href: "/library/life-eating-out-fat-loss-complete-guide",
+        description: "把胰島素概念放回早餐店、便當、火鍋與手搖飲情境。",
+      },
+    ],
+    shortLinks: [
+      {
+        label: "血糖雲霄飛車：外食族的一天",
+        href: "/notes/blood-sugar-rollercoaster",
+      },
+      {
+        label: "代謝不是意志力問題",
+        href: "/notes/metabolism-is-not-willpower",
+      },
+      {
+        label: "少吃就會突破停滯嗎",
+        href: "/library/life-fat-loss-plateau-eat-less-myth",
+      },
+      {
+        label: "空腹血糖正常，也可能有胰島素阻抗",
+        href: "/library/life-normal-fasting-glucose-insulin-resistance",
+      },
+      {
+        label: "低 GI、飲食與胰島素阻抗證據",
+        href: "/library/life-low-gi-diet-insulin-resistance-evidence",
+      },
+      {
+        label: "手搖飲、血糖與選擇指南",
+        href: "/library/life-bubble-tea-blood-sugar-guide",
+      },
+    ],
+    externalResource: {
+      label: "ResetWith 顧問實踐紀錄",
+      href: "https://cnfcd.life/",
+      description: "中性延伸資源：查看主站的實踐紀錄與背景資料。",
+    },
+  },
+  "middle-age-metabolism-after-40": {
+    introLinks: [
+      {
+        label: "如果你想先理解胰島素訊號，從這篇開始",
+        href: "/library/life-insulin-resistance-complete-guide",
+      },
+      {
+        label: "如果你已經遇到停滯與復胖，接著讀這篇",
+        href: "/library/life-fat-loss-plateau-complete-guide",
+      },
+      {
+        label: "睡眠如何影響食慾與代謝，這篇講得更細",
+        href: "/notes/sleep-appetite-metabolism",
+      },
+    ],
+    pillarLinks: [
+      {
+        label: "胰島素阻抗完整指南",
+        href: "/library/life-insulin-resistance-complete-guide",
+        description: "理解同樣一餐為什麼在不同年齡引發不同代謝反應。",
+      },
+      {
+        label: "減脂停滯期完整解析",
+        href: "/library/life-fat-loss-plateau-complete-guide",
+        description: "看懂身體進入節能與保護模式時，為什麼體重開始卡住。",
+      },
+      {
+        label: "外食族減脂實戰",
+        href: "/library/life-eating-out-fat-loss-complete-guide",
+        description: "把中年代謝問題放回上班、聚餐與外食節奏。",
+      },
+    ],
+    shortLinks: [
+      { label: "40 歲後代謝變化速讀", href: "/notes/metabolism-after-40" },
+      {
+        label: "睡眠、食慾與脂肪動員",
+        href: "/notes/sleep-appetite-metabolism",
+      },
+      {
+        label: "血糖雲霄飛車：外食族的一天",
+        href: "/notes/blood-sugar-rollercoaster",
+      },
+      {
+        label: "肌少症、肌肉流失與代謝老化",
+        href: "/library/life-sarcopenia-muscle-loss-metabolic-aging",
+      },
+      {
+        label: "男性代謝與睪固酮下降",
+        href: "/library/life-male-metabolism-andropause-fat-loss-guide",
+      },
+      {
+        label: "腰圍比體重更值得觀察",
+        href: "/library/life-waist-circumference-vs-weight-visceral-fat",
+      },
+    ],
+    externalResource: {
+      label: "ResetWith 顧問實踐紀錄",
+      href: "https://cnfcd.life/",
+      description: "中性延伸資源：查看主站的實踐紀錄與背景資料。",
+    },
+  },
+  "life-fat-loss-plateau-complete-guide": {
+    introLinks: [
+      {
+        label: "如果你懷疑是胰島素訊號卡住，先讀這篇",
+        href: "/library/life-insulin-resistance-complete-guide",
+      },
+      {
+        label: "如果你是 40 歲後才開始卡住，讀這篇",
+        href: "/library/middle-age-metabolism-after-40",
+      },
+      {
+        label: "少吃就能突破停滯嗎？常見誤解在這篇",
+        href: "/library/life-fat-loss-plateau-eat-less-myth",
+      },
+    ],
+    pillarLinks: [
+      {
+        label: "胰島素阻抗完整指南",
+        href: "/library/life-insulin-resistance-complete-guide",
+        description: "把停滯放回血糖、胰島素與脂肪動員條件中理解。",
+      },
+      {
+        label: "40 歲後代謝變慢的真相",
+        href: "/library/middle-age-metabolism-after-40",
+        description: "分辨年齡、肌肉量、睡眠與壓力在停滯中的角色。",
+      },
+      {
+        label: "外食族減脂實戰",
+        href: "/library/life-eating-out-fat-loss-complete-guide",
+        description: "把停滯原因放回每天最常發生的外食選擇。",
+      },
+    ],
+    shortLinks: [
+      {
+        label: "體重停滯與代謝適應",
+        href: "/notes/plateau-and-metabolic-adaptation",
+      },
+      {
+        label: "少吃就會突破停滯嗎",
+        href: "/library/life-fat-loss-plateau-eat-less-myth",
+      },
+      {
+        label: "吃太少反而胖的代謝真相",
+        href: "/library/life-eating-less-makes-you-fatter-metabolic-truth",
+      },
+      {
+        label: "有運動還是瘦不下來的 5 個原因",
+        href: "/library/life-exercise-but-not-losing-weight-5-reasons",
+      },
+      {
+        label: "體重停滯的科學原因",
+        href: "/library/life-weight-loss-plateau-science",
+      },
+      {
+        label: "睡眠、食慾與脂肪動員",
+        href: "/notes/sleep-appetite-metabolism",
+      },
+    ],
+    externalResource: {
+      label: "ResetWith 顧問實踐紀錄",
+      href: "https://cnfcd.life/",
+      description: "中性延伸資源：查看主站的實踐紀錄與背景資料。",
+    },
+  },
+};
+
+const categoryHubLinks = {
+  新手必讀: {
+    label: "40 歲後代謝變慢的真相",
+    href: "/library/middle-age-metabolism-after-40",
+  },
+  "CNFCD 核心": {
+    label: "胰島素阻抗完整指南",
+    href: "/library/life-insulin-resistance-complete-guide",
+  },
+  代謝修復: {
+    label: "減脂停滯期完整解析",
+    href: "/library/life-fat-loss-plateau-complete-guide",
+  },
+  胰島素與血糖: {
+    label: "胰島素阻抗完整指南",
+    href: "/library/life-insulin-resistance-complete-guide",
+  },
+  腸道與發炎: {
+    label: "腸道、發炎與食慾訊號",
+    href: "/notes/gut-appetite-inflammation",
+  },
+  睡眠與壓力: {
+    label: "睡眠、食慾與脂肪動員",
+    href: "/notes/sleep-appetite-metabolism",
+  },
+  外食族指南: {
+    label: "外食族減脂實戰",
+    href: "/library/life-eating-out-fat-loss-complete-guide",
+  },
+  疾病與代謝風險: {
+    label: "脂肪肝代謝警訊",
+    href: "/library/life-fatty-liver-nafld-reversal-stages",
+  },
+  常見迷思: {
+    label: "減脂停滯期完整解析",
+    href: "/library/life-fat-loss-plateau-complete-guide",
+  },
+  研究與資料整理: {
+    label: "胰島素阻抗完整指南",
+    href: "/library/life-insulin-resistance-complete-guide",
+  },
+};
+
 export function getStaticPaths() {
   return articles
     .filter((article) => article.content)
@@ -24,6 +259,28 @@ const updatedDate = content
 
 const normalizeHref = (href) => href.replace(/\/$/, "");
 const articleUrlSet = new Set(articles.map((item) => normalizeHref(item.url)));
+const validateInternalLinks = (items) =>
+  items
+    .map((item) => ({ ...item, href: normalizeHref(item.href) }))
+    .filter((item) => articleUrlSet.has(item.href));
+const pillarGuide = pillarGuides[article.slug];
+const pillarIntroLinks = pillarGuide
+  ? validateInternalLinks(pillarGuide.introLinks)
+  : [];
+const pillarLinks = pillarGuide
+  ? validateInternalLinks(pillarGuide.pillarLinks)
+  : [];
+const pillarShortLinks = pillarGuide
+  ? validateInternalLinks(pillarGuide.shortLinks)
+  : [];
+const spokeHubCandidate = !pillarGuide
+  ? categoryHubLinks[article.category]
+  : undefined;
+const spokeHub =
+  spokeHubCandidate &&
+  normalizeHref(spokeHubCandidate.href) !== normalizeHref(article.url)
+    ? spokeHubCandidate
+    : undefined;
 const manualRelated =
   content?.related
     ?.map((item) => ({ ...item, href: normalizeHref(item.href) }))
@@ -74,6 +331,25 @@ const relatedItems = [...manualRelated, ...generatedRelated].slice(0, 6);
         <span>更新 {updatedDate}</span>
       </div>
     </header>
+
+    {
+      pillarGuide && pillarIntroLinks.length > 0 && (
+        <section class="panel hub-intro-panel" aria-label="Pillar 導讀">
+          <p class="eyebrow">Start Here</p>
+          <h2>先用這三條路徑定位自己</h2>
+          <ul class="reading-list compact-reading-list">
+            {pillarIntroLinks.map((item) => (
+              <li>
+                <a href={item.href}>
+                  <span>{item.label}</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
 
     {
       content && content.summary.length > 0 && (
@@ -130,6 +406,59 @@ const relatedItems = [...manualRelated, ...generatedRelated].slice(0, 6);
     }
 
     {
+      pillarGuide && (
+        <section
+          class="panel hub-map-panel"
+          aria-label="Hub and Spoke 內鏈地圖"
+        >
+          <div class="section-heading inline-heading">
+            <p class="eyebrow">Hub-and-Spoke</p>
+            <h2>這篇的內部閱讀路徑</h2>
+          </div>
+          <div class="hub-map-grid">
+            <div class="hub-map-column">
+              <h3>橫向 Pillar</h3>
+              <ul class="hub-link-list">
+                {pillarLinks.map((item) => (
+                  <li>
+                    <a href={item.href}>
+                      <strong>{item.label}</strong>
+                      {item.description && <span>{item.description}</span>}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="hub-map-column">
+              <h3>觀念短文</h3>
+              <ul class="hub-link-list">
+                {pillarShortLinks.map((item) => (
+                  <li>
+                    <a href={item.href}>
+                      <strong>{item.label}</strong>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="hub-map-column external-resource-card">
+              <h3>中性延伸資源</h3>
+              <a
+                href={pillarGuide.externalResource.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <strong>{pillarGuide.externalResource.label}</strong>
+                <span>{pillarGuide.externalResource.description}</span>
+                <small aria-hidden="true">↗</small>
+              </a>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
       content && (relatedItems.length || content.references?.length) && (
         <section class="panel related-panel" aria-label="延伸閱讀與資料來源">
           {relatedItems.length > 0 && (
@@ -169,6 +498,16 @@ const relatedItems = [...manualRelated, ...generatedRelated].slice(0, 6);
               </ul>
             </div>
           )}
+        </section>
+      )
+    }
+
+    {
+      spokeHub && (
+        <section class="panel spoke-return-panel" aria-label="完整脈絡">
+          <p>
+            想看完整脈絡？讀這篇 →<a href={spokeHub.href}>{spokeHub.label}</a>
+          </p>
         </section>
       )
     }

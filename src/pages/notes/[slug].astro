@@ -12,6 +12,51 @@ export function getStaticPaths() {
 }
 
 const { article } = Astro.props;
+
+const categoryHubLinks = {
+  新手必讀: {
+    label: "40 歲後代謝變慢的真相",
+    href: "/library/middle-age-metabolism-after-40",
+  },
+  "CNFCD 核心": {
+    label: "胰島素阻抗完整指南",
+    href: "/library/life-insulin-resistance-complete-guide",
+  },
+  代謝修復: {
+    label: "減脂停滯期完整解析",
+    href: "/library/life-fat-loss-plateau-complete-guide",
+  },
+  胰島素與血糖: {
+    label: "胰島素阻抗完整指南",
+    href: "/library/life-insulin-resistance-complete-guide",
+  },
+  腸道與發炎: {
+    label: "腸道、發炎與食慾訊號",
+    href: "/notes/gut-appetite-inflammation",
+  },
+  睡眠與壓力: {
+    label: "睡眠、食慾與脂肪動員",
+    href: "/notes/sleep-appetite-metabolism",
+  },
+  外食族指南: {
+    label: "外食族減脂實戰",
+    href: "/library/life-eating-out-fat-loss-complete-guide",
+  },
+  疾病與代謝風險: {
+    label: "脂肪肝代謝警訊",
+    href: "/library/life-fatty-liver-nafld-reversal-stages",
+  },
+  常見迷思: {
+    label: "減脂停滯期完整解析",
+    href: "/library/life-fat-loss-plateau-complete-guide",
+  },
+  研究與資料整理: {
+    label: "胰島素阻抗完整指南",
+    href: "/library/life-insulin-resistance-complete-guide",
+  },
+};
+
+const noteHubLink = categoryHubLinks[article.category];
 ---
 
 <BaseLayout
@@ -39,6 +84,17 @@ const { article } = Astro.props;
           ))}
         </section>
       ))
+    }
+
+    {
+      noteHubLink && noteHubLink.href !== article.url && (
+        <section class="panel spoke-return-panel" aria-label="完整脈絡">
+          <p>
+            想看完整脈絡？讀這篇 →
+            <a href={noteHubLink.href}>{noteHubLink.label}</a>
+          </p>
+        </section>
+      )
     }
 
     <nav class="panel pager-nav" aria-label="文章導覽">

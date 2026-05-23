@@ -14,9 +14,27 @@ const socialImage = new URL("/og/cnfcd-portal-cover.svg", Astro.site);
 
 const navItems = [
   { href: "/", label: "首頁" },
-  { href: "/start", label: "快速認識" },
-  { href: "/concepts", label: "核心觀念" },
-  { href: "/articles", label: "文章地圖" },
+  {
+    href: "/library/life-insulin-resistance-complete-guide",
+    label: "胰島素",
+    match: ["/articles/insulin-blood-sugar"],
+  },
+  {
+    href: "/library/middle-age-metabolism-after-40",
+    label: "代謝",
+    match: ["/articles/metabolic-repair"],
+  },
+  {
+    href: "/library/life-fat-loss-plateau-complete-guide",
+    label: "停滯期",
+    match: ["/articles/myths"],
+  },
+  {
+    href: "/library/life-eating-out-fat-loss-complete-guide",
+    label: "外食",
+    match: ["/articles/eating-out"],
+  },
+  { href: "/articles", label: "全部主題" },
 ];
 
 const path = Astro.url.pathname;
@@ -29,10 +47,11 @@ const currentArticleCategorySlug = currentArticle
       (category) => category.title === currentArticle.category,
     )?.slug
   : undefined;
-const activeNav =
-  navItems.find(
-    (item) => path === item.href || path.startsWith(`${item.href}/`),
-  )?.label ?? "知識文件";
+const isNavActive = (item) =>
+  path === item.href ||
+  path.startsWith(`${item.href}/`) ||
+  Boolean(item.match?.some((matchPath) => path.startsWith(matchPath)));
+const activeNav = navItems.find(isNavActive)?.label ?? "知識文件";
 const activeCategory =
   currentArticle?.category ??
   articleCategories.find((category) =>
@@ -42,11 +61,11 @@ const activeCategory =
 
 const sidebarGroups = [
   {
-    title: "Start",
+    title: "Pillar Topics",
     items: navItems,
   },
   {
-    title: "Article Routes",
+    title: "All Themes",
     items: articleCategories.map((category) => ({
       href: `/articles/${category.slug}`,
       label: category.title,
@@ -105,7 +124,7 @@ const sidebarGroups = [
           <nav class="top-links" aria-label="主要導覽">
             {
               navItems.map((item) => (
-                <a href={item.href} class:list={{ active: path === item.href }}>
+                <a href={item.href} class:list={{ active: isNavActive(item) }}>
                   {item.label}
                 </a>
               ))
@@ -137,6 +156,7 @@ const sidebarGroups = [
                         active:
                           path === item.href ||
                           path.startsWith(`${item.href}/`) ||
+                          isNavActive(item) ||
                           item.href ===
                             `/articles/${currentArticleCategorySlug}`,
                       }}

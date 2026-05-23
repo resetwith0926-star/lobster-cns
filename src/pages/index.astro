@@ -1,248 +1,153 @@
 ---
-import FlowDiagram from "../components/FlowDiagram.astro";
-import HeroCardGrid from "../components/HeroCardGrid.astro";
-import ReadingPathList from "../components/ReadingPathList.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { principleArticles } from "../data/articles";
 
-const heroCards = [
+const pillarCards = [
   {
-    title: "快速認識 CNFCD",
-    description: "用 3 分鐘理解 CNFCD 的核心觀念與方法框架。",
-    href: "/start",
-  },
-  {
-    title: "核心觀念",
-    description: "從代謝、血糖、腸道、睡眠與壓力，重新建立對身體的理解。",
-    href: "/concepts",
-  },
-  {
-    title: "文章地圖",
-    description: "依照主題快速找到站內知識文章與延伸閱讀。",
-    href: "/articles",
-  },
-];
-
-const audiencePathGroups = [
-  {
-    title: "人生階段",
+    title: "胰島素阻抗完整指南",
     description:
-      "年齡、產後、荷爾蒙與肌肉量變化，常常會改變身體處理食物的方式。",
-    items: [
-      {
-        label: "中年代謝",
-        title: "我 40 歲後開始卡住",
-        description:
-          "吃得和以前差不多，腰圍、體脂或健檢數字卻開始變化。先看胰島素、肌肉與睡眠的系統變化。",
-        href: "/library/middle-age-metabolism-after-40",
-      },
-      {
-        label: "中年男性",
-        title: "我腰圍變大、精神下滑",
-        description:
-          "把啤酒肚、睪固酮變化、肌肉流失、壓力與睡眠放在同一張代謝地圖裡看。",
-        href: "/library/life-male-metabolism-andropause-fat-loss-guide",
-      },
-      {
-        label: "產後復原",
-        title: "我是產後媽媽",
-        description:
-          "睡眠碎片化、壓力、哺乳期食慾與身體組成變化，常常需要一起看，而不是只看熱量。",
-        href: "/library/postpartum-weight-retention-metabolic-rhythm",
-      },
-      {
-        label: "更年期女性",
-        title: "我停經前後腰圍變明顯",
-        description:
-          "從雌激素、脂肪分布、睡眠與胰島素敏感度，理解更年期前後的代謝變化。",
-        href: "/library/life-menopause-obesity-hormones-waist-fat",
-      },
-    ],
+      "為什麼吃一樣的東西，身體卻越來越敏感？從判斷、機制到改善方向，一篇看懂。",
+    href: "/library/life-insulin-resistance-complete-guide",
   },
   {
-    title: "反覆卡關",
-    description:
-      "如果你已經努力過很多次，先理解身體為什麼會進入保守、停滯或復胖循環。",
-    items: [
-      {
-        label: "復胖循環",
-        title: "我已經復胖很多次",
-        description:
-          "反覆節食、停滯、暴食、再重來，可能不是意志力壞掉，而是代謝適應與生活壓力在拉扯。",
-        href: "/library/weight-regain-metabolic-adaptation-cycle",
-      },
-      {
-        label: "吃很少仍卡",
-        title: "我吃更少，身體卻更保守",
-        description:
-          "長期低熱量可能讓身體調低消耗、提高飢餓訊號，越努力越難維持。",
-        href: "/library/life-eating-less-makes-you-fatter-metabolic-truth",
-      },
-      {
-        label: "運動卡關",
-        title: "我有運動，體重還是不動",
-        description:
-          "運動是好事，但如果血糖、睡眠、壓力與飲食結構不同步，體脂不一定會照預期下降。",
-        href: "/library/life-exercise-but-not-losing-weight-5-reasons",
-      },
-      {
-        label: "瘦胖體質",
-        title: "我體重正常，但腰圍或體脂偏高",
-        description:
-          "BMI 正常不一定代表代謝健康，亞洲人常見的瘦胖型態需要看腰圍、肌肉與血脂血糖。",
-        href: "/library/life-normal-weight-hidden-obesity-4-warning-signs",
-      },
-    ],
+    title: "40 歲後代謝變慢的真相",
+    description: "不是基礎代謝率降了，是身體節奏整個改了。",
+    href: "/library/middle-age-metabolism-after-40",
   },
   {
-    title: "日常情境",
-    description:
-      "工作型態、外食、睡眠與情緒，會把代謝問題藏在每天很普通的選擇裡。",
-    items: [
-      {
-        label: "外食上班族",
-        title: "我忙、常外食、下午容易崩",
-        description:
-          "早餐店、便當、手搖飲與宵夜不只是選擇問題，也是血糖節奏與壓力恢復的問題。",
-        href: "/notes/eating-out-stable-rhythm",
-      },
-      {
-        label: "手搖甜食",
-        title: "我下午一定想喝甜的",
-        description: "把甜食渴望放回血糖、壓力、大腦獎賞與睡眠不足的脈絡裡看。",
-        href: "/library/life-bubble-tea-blood-sugar-guide",
-      },
-      {
-        label: "睡眠壓力",
-        title: "我睡不好、壓力大、容易嘴饞",
-        description:
-          "睡眠與壓力會改變隔天的飢餓感、甜食渴望與脂肪動員條件，值得先被看見。",
-        href: "/notes/sleep-appetite-metabolism",
-      },
-      {
-        label: "腸胃發炎",
-        title: "我常脹氣、排便亂、狀態起伏",
-        description:
-          "腸道菌相、短鏈脂肪酸、腸腦軸與慢性發炎，都可能影響食慾與精神狀態。",
-        href: "/notes/gut-appetite-inflammation",
-      },
-    ],
-  },
-  {
-    title: "健檢風險",
-    description: "健檢紅字不是恐嚇，也不是診斷結論；它更像身體給你的代謝線索。",
-    items: [
-      {
-        label: "健檢紅字",
-        title: "我開始看到脂肪肝、血糖或三高警訊",
-        description:
-          "把健檢數字放回代謝脈絡，理解血糖、胰島素、肝臟與發炎訊號如何互相牽動。",
-        href: "/library/health-check-red-flags-metabolic-map",
-      },
-      {
-        label: "脂肪肝",
-        title: "我被說有脂肪肝",
-        description:
-          "脂肪肝常和胰島素阻抗、果糖、內臟脂肪與三酸甘油脂有關，不能只看肝臟。",
-        href: "/library/life-fatty-liver-nafld-reversal-stages",
-      },
-      {
-        label: "血糖胰島素",
-        title: "我空腹血糖正常，但還是不放心",
-        description:
-          "空腹血糖正常不一定代表代謝反應完全穩定，餐後波動與胰島素環境也值得理解。",
-        href: "/library/life-normal-fasting-glucose-insulin-resistance",
-      },
-      {
-        label: "血脂三高",
-        title: "我三酸甘油脂、血壓或膽固醇偏高",
-        description: "血脂、血壓、腰圍與血糖常常是同一套代謝背景的不同表現。",
-        href: "/library/life-high-triglycerides-meaning-fat-loss",
-      },
-    ],
+    title: "減脂停滯期完整解析",
+    description: "身體不是不配合，是進入了保護模式。",
+    href: "/library/life-fat-loss-plateau-complete-guide",
   },
 ];
 
-const readingPaths = [
-  { label: "新手必讀", href: "/articles/beginner" },
-  { label: "胰島素與血糖", href: "/articles/insulin-blood-sugar" },
-  { label: "腸道與發炎", href: "/articles/gut-inflammation" },
-  { label: "睡眠與壓力", href: "/articles/sleep-stress" },
-  { label: "外食族指南", href: "/articles/eating-out" },
-  { label: "疾病與代謝風險", href: "/articles/metabolic-disease" },
-  { label: "研究與資料整理", href: "/articles/cases-research" },
+const topicRoutes = [
+  {
+    icon: "🍱",
+    prompt: "我是外食族",
+    title: "外食族減脂實戰",
+    href: "/library/life-eating-out-fat-loss-complete-guide",
+  },
+  {
+    icon: "🩺",
+    prompt: "健檢出現脂肪肝",
+    title: "脂肪肝代謝警訊",
+    href: "/library/life-fatty-liver-nafld-reversal-stages",
+  },
+  {
+    icon: "🤰",
+    prompt: "產後瘦不下來",
+    title: "產後恢復節奏",
+    href: "/library/postpartum-weight-retention-metabolic-rhythm",
+  },
+  {
+    icon: "💊",
+    prompt: "想了解瘦瘦針",
+    title: "GLP-1 完整真相",
+    href: "/library/life-glp1-mechanism-muscle-loss-rebound",
+  },
+  {
+    icon: "🧠",
+    prompt: "壓力大就想吃",
+    title: "壓力與皮質醇",
+    href: "/library/life-stress-cortisol-metabolism-visceral-fat",
+  },
 ];
 
-const learningPoints = [
-  "代謝不是意志力問題",
-  "體重管理不只看熱量",
-  "睡眠與壓力會影響脂肪動員",
-  "腸道與發炎會影響食慾與狀態",
-  "外食族也能建立穩定節奏",
-];
+const noteArticles = principleArticles
+  .filter((article) => article.source === "觀念短文")
+  .slice(0, 8);
 ---
 
 <BaseLayout
-  title="看懂身體為什麼會卡住 | CNFCD 知識入口"
-  description="CNFCD.TW 整理中年代謝、產後復原、復胖循環、健檢紅字、胰島素敏感度、腸道、睡眠與體重管理知識。"
+  title="為什麼越努力減肥，身體越不配合？ | CNFCD.TW"
+  description="CNFCD.TW 是代謝健康知識前哨，整理胰島素阻抗、中年代謝、減脂停滯、外食、脂肪肝、壓力與體重管理原理。"
   canonicalPath="/"
 >
-  <section class="hero panel hero-panel">
-    <p class="eyebrow">CNFCD.TW</p>
-    <h1>看懂身體為什麼會卡住</h1>
+  <section class="hero panel hero-panel hook-panel">
+    <p class="eyebrow">CNFCD.TW Knowledge Front</p>
+    <h1>為什麼你越努力減肥，身體越不配合？</h1>
     <p class="hero-subtitle">
-      中年代謝、產後復原、復胖循環、健檢紅字，許多看似不同的問題，其實來自同一套機制。
+      不是意志力問題，也不是熱量算錯——<br />
+      是身體的代謝節奏被打亂了。
     </p>
     <p class="hero-copy">
-      CNFCD.TW
-      整理代謝健康、飲食節奏、胰島素敏感度、腸道、睡眠與體重管理的知識。這裡不談銷售，先幫你看懂。
+      你試過低卡、168、生酮、瘦瘦針，短期有用、長期復胖，最後越減越胖。這不是你不夠努力，是身體的胰島素訊號、脂肪動員機制與壓力荷爾蒙串成了一個你看不見的循環。這個網站不講銷售，只幫你看懂這個循環。
     </p>
+    <a class="hero-action" href="/library/middle-age-metabolism-after-40">
+      <span aria-hidden="true">▶</span>
+      從這篇開始讀：40 歲後代謝變慢的真相
+    </a>
   </section>
 
-  <HeroCardGrid cards={heroCards} />
-
-  <section class="panel audience-panel">
+  <section class="panel pillar-section" aria-labelledby="home-pillars">
     <div class="section-heading">
-      <p class="eyebrow">Audience Routes</p>
-      <h2>你是哪種人？</h2>
+      <p class="eyebrow">Pillar Guides</p>
+      <h2 id="home-pillars">三個核心入口</h2>
       <p class="section-intro">
-        如果你剛進來，不必先懂所有名詞。先從自己的情境進入，再回到主題分類慢慢讀。
+        先從這三篇建立主幹，再往外讀短文、案例資料與生活情境。這是本站的
+        Hub-and-Spoke 閱讀結構。
       </p>
     </div>
-    <div class="audience-groups">
+    <div class="pillar-grid">
       {
-        audiencePathGroups.map((group) => (
-          <section class="audience-group">
-            <div class="audience-group-head">
-              <h3>{group.title}</h3>
-              <p>{group.description}</p>
-            </div>
-            <div class="audience-grid">
-              {group.items.map((item) => (
-                <a class="audience-card" href={item.href}>
-                  <span>{item.label}</span>
-                  <h4>{item.title}</h4>
-                  <p>{item.description}</p>
-                  <small aria-hidden="true">閱讀路徑 →</small>
-                </a>
-              ))}
-            </div>
-          </section>
+        pillarCards.map((card, index) => (
+          <a class="pillar-card" href={card.href}>
+            <span class="pillar-number">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <h3>{card.title}</h3>
+            <p>{card.description}</p>
+            <small>閱讀全文 →</small>
+          </a>
         ))
       }
     </div>
   </section>
 
-  <FlowDiagram />
-
-  <section class="panel">
+  <section class="panel topic-entry-section" aria-labelledby="home-topics">
     <div class="section-heading">
-      <p class="eyebrow">Learning Outcomes</p>
-      <h2>你將學到什麼</h2>
+      <p class="eyebrow">Topic Entry</p>
+      <h2 id="home-topics">你最近關心哪一件事？</h2>
     </div>
-    <ul class="bullet-list">
-      {learningPoints.map((point) => <li>{point}</li>)}
-    </ul>
+    <div class="topic-route-list">
+      {
+        topicRoutes.map((route) => (
+          <a class="topic-route" href={route.href}>
+            <span class="topic-icon" aria-hidden="true">
+              {route.icon}
+            </span>
+            <span class="topic-prompt">{route.prompt}</span>
+            <strong>{route.title}</strong>
+            <span aria-hidden="true">→</span>
+          </a>
+        ))
+      }
+    </div>
   </section>
 
-  <ReadingPathList items={readingPaths} />
+  <section class="panel note-library" aria-labelledby="home-notes">
+    <div class="section-heading">
+      <p class="eyebrow">Short Notes</p>
+      <h2 id="home-notes">延伸閱讀 · 觀念短文</h2>
+      <p class="section-intro">
+        這些短文用比較小的切口拆解單一觀念，適合當作 Pillar 文章的補充資料。
+      </p>
+    </div>
+    <ul class="note-link-list">
+      {
+        noteArticles.map((article) => (
+          <li>
+            <a href={article.url}>
+              <span>{article.title}</span>
+              <small>{article.description}</small>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="note-library-footer">
+      <a class="text-link" href="/articles">查看全部主題 →</a>
+    </div>
+  </section>
 </BaseLayout>
