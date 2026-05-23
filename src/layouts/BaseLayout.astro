@@ -39,9 +39,12 @@ const navItems = [
 
 const path = Astro.url.pathname;
 const librarySlug = path.match(/^\/library\/([^/]+)/)?.[1];
+const noteSlug = path.match(/^\/notes\/([^/]+)/)?.[1];
 const currentArticle = librarySlug
   ? articles.find((article) => article.slug === librarySlug)
-  : undefined;
+  : noteSlug
+    ? articles.find((article) => article.slug === noteSlug)
+    : undefined;
 const currentArticleCategorySlug = currentArticle
   ? articleCategories.find(
       (category) => category.title === currentArticle.category,
