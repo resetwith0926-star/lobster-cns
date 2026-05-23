@@ -366,6 +366,8 @@ button {
 }
 
 .card-grid,
+.audience-groups,
+.audience-group,
 .audience-grid,
 .concept-grid,
 .category-overview,
@@ -483,6 +485,7 @@ button {
 .feature-card h2,
 .concept-card h2,
 .audience-card h3,
+.audience-card h4,
 .article-card h2,
 .category-card h2,
 .prose-section h2 {
@@ -526,13 +529,44 @@ button {
   padding-bottom: 20px;
 }
 
-.audience-grid {
+.audience-groups {
   padding: 0 24px 24px;
+}
+
+.audience-group {
+  gap: 12px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.audience-group:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.audience-group-head {
+  display: grid;
+  gap: 6px;
+}
+
+.audience-group-head h3 {
+  margin: 0;
+  color: var(--text-strong);
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 5vw, 2.2rem);
+  line-height: 1;
+}
+
+.audience-group-head p {
+  max-width: 62ch;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
 }
 
 .audience-card {
   display: grid;
-  min-height: 220px;
+  min-height: 240px;
   align-content: space-between;
   gap: 12px;
   padding: 20px;
@@ -547,7 +581,7 @@ button {
   text-transform: uppercase;
 }
 
-.audience-card h3 {
+.audience-card h4 {
   font-size: clamp(1.25rem, 5vw, 1.75rem);
   line-height: 1.18;
 }

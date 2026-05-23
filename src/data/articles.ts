@@ -339,6 +339,374 @@ export const principleArticles: ArticleEntry[] = [
     },
   },
   {
+    slug: "postpartum-weight-retention-metabolic-rhythm",
+    title: "為什麼產後沒有自然瘦回來？真正要看的不是熱量，而是恢復節奏",
+    description:
+      "從睡眠碎片化、壓力荷爾蒙、哺乳期食慾、肌肉量與飲食節奏，理解產後身體為什麼容易卡住。",
+    category: "睡眠與壓力",
+    url: "/library/postpartum-weight-retention-metabolic-rhythm",
+    tags: ["產後", "睡眠", "壓力", "食慾", "身體組成"],
+    recommendedOrder: 1,
+    source: "知識整理",
+    content: {
+      slug: "postpartum-weight-retention-metabolic-rhythm",
+      originalSlug: "postpartum-weight-retention-metabolic-rhythm",
+      title: "為什麼產後沒有自然瘦回來？真正要看的不是熱量，而是恢復節奏",
+      originalUrl: "",
+      importedAt: "2026-05-23",
+      summary: [
+        "很多產後媽媽會以為自己沒有瘦回來，是因為吃太多或不夠努力。但產後身體面對的是睡眠被切碎、壓力上升、照顧負荷變大與飲食時間混亂。",
+        "如果只用熱量解釋產後體重保留，很容易忽略恢復節奏。更實際的觀察是：睡眠、食慾、活動量、肌肉量與每餐血糖是否開始回到穩定。",
+      ],
+      keyTakeaways: [
+        "產後體重保留通常不是單一原因，而是恢復、睡眠、壓力與飲食節奏交疊。",
+        "睡眠碎片化會影響隔天食慾、精神與高熱量食物渴望。",
+        "哺乳與照顧壓力會讓身體需要能量，也可能讓飲食更難規律。",
+        "先建立穩定三餐與恢復感，比急著低卡節食更符合產後情境。",
+      ],
+      visual: {
+        type: "cycle",
+        title: "產後卡住的恢復循環",
+        center: "產後恢復節奏",
+        nodes: [
+          "睡眠被切碎",
+          "壓力恢復不足",
+          "食慾與嘴饞升高",
+          "飲食時間混亂",
+          "身體更難回穩",
+        ],
+      },
+      blocks: [
+        {
+          type: "quote",
+          text: "產後不是回到懷孕前的生活，再加一個小孩。它是整個作息、壓力、睡眠與飲食環境都被重新洗牌。",
+        },
+        {
+          type: "heading",
+          text: "一、產後沒有自然瘦回來，常常不是意志力問題",
+        },
+        {
+          type: "paragraph",
+          text: "很多人對產後身體有一個很重的期待：生完之後，只要時間過去，就應該慢慢回到以前。但真實生活往往不是這樣。睡眠變短、半夜醒來、白天照顧壓力變大，吃飯時間也常常被打斷。",
+        },
+        {
+          type: "paragraph",
+          text: "在這種狀態下，身體不是在一個適合減脂的環境裡，而是在一個需要恢復、保護與快速補能的環境裡。這就是為什麼單純少吃，常常讓產後媽媽更累、更餓，也更難維持。",
+        },
+        {
+          type: "heading",
+          text: "二、睡眠碎片化會改變隔天的飲食選擇",
+        },
+        {
+          type: "paragraph",
+          text: "產後睡眠最常見的問題不是完全不睡，而是被切成很多段。睡眠不足與壓力恢復不夠，會讓隔天更想吃快速提供能量的食物，例如甜食、精緻澱粉或含糖飲。",
+        },
+        {
+          type: "paragraph",
+          text: "這不是單純嘴饞。當身體疲勞、血糖波動大、壓力荷爾蒙偏高，大腦會更偏好能快速帶來回饋的食物。這種狀態下責怪自己，通常沒有太大幫助；先穩住節奏比較重要。",
+        },
+        {
+          type: "heading",
+          text: "三、哺乳、飢餓感與飲食節奏要一起看",
+        },
+        {
+          type: "paragraph",
+          text: "哺乳期的能量需求、飢餓感與口渴感可能增加。如果白天忙到沒有好好吃，晚上反而更容易快速補進高熱量食物。問題不一定是吃得太多，而是一天的能量分配太亂。",
+        },
+        {
+          type: "list",
+          items: [
+            "早餐和第一餐不要只有甜飲或精緻澱粉，先放進蛋白質與纖維。",
+            "把最容易失控的時段標出來，通常是下午疲勞或半夜醒來後。",
+            "先求規律與穩定，不急著追求完美菜單或激烈熱量赤字。",
+          ],
+        },
+        {
+          type: "heading",
+          text: "四、先觀察三個指標",
+        },
+        {
+          type: "paragraph",
+          text: "產後恢復期可以先觀察三件事：第一，半夜醒來後隔天是否特別想吃甜；第二，下午是否明顯崩潰或需要含糖飲；第三，腰圍與精神是否比體重數字更能反映狀態。",
+        },
+        {
+          type: "paragraph",
+          text: "這篇文章是健康教育與生活型態整理，不取代產後醫療照護、婦產科追蹤、泌乳支持或心理健康支持。若有持續疲憊、情緒低落、疼痛、出血或其他不適，請優先和專業醫療人員討論。",
+        },
+      ],
+      related: [
+        {
+          label: "睡不好，為什麼更難穩定飲食",
+          href: "/notes/sleep-appetite-metabolism",
+        },
+        {
+          label: "女性、減脂、完整、指南",
+          href: "/library/life-women-fat-loss-complete-guide",
+        },
+        {
+          label: "壓力進食與皮質醇機制",
+          href: "/library/life-stress-eating-cortisol-mechanism",
+        },
+      ],
+      references: [
+        {
+          label:
+            "Gunderson 等人，Childbearing and obesity in women，Obstetrics and Gynecology Clinics 2009",
+          href: "https://pubmed.ncbi.nlm.nih.gov/19501313/",
+        },
+        {
+          label:
+            "Siega-Riz 等人，A systematic review of outcomes of maternal weight gain according to the Institute of Medicine recommendations，American Journal of Obstetrics and Gynecology 2009",
+          href: "https://pubmed.ncbi.nlm.nih.gov/19788965/",
+        },
+      ],
+    },
+  },
+  {
+    slug: "weight-regain-metabolic-adaptation-cycle",
+    title: "為什麼你越減越難瘦？復胖循環背後的代謝適應",
+    description:
+      "從低熱量節食、瘦素與飢餓素、肌肉流失、壓力與睡眠，理解為什麼反覆減重後身體更容易保守。",
+    category: "代謝修復",
+    url: "/library/weight-regain-metabolic-adaptation-cycle",
+    tags: ["復胖", "代謝適應", "停滯期", "節食", "肌肉"],
+    recommendedOrder: 1,
+    source: "知識整理",
+    content: {
+      slug: "weight-regain-metabolic-adaptation-cycle",
+      originalSlug: "weight-regain-metabolic-adaptation-cycle",
+      title: "為什麼你越減越難瘦？復胖循環背後的代謝適應",
+      originalUrl: "",
+      importedAt: "2026-05-23",
+      summary: [
+        "反覆復胖常被解釋成不夠自律，但身體其實有一套保護機制。當你長期吃很少、壓力很高、睡眠不足，身體會傾向降低消耗、提高飢餓訊號。",
+        "復胖循環真正需要拆解的是系統：你用什麼方式減、肌肉有沒有保住、睡眠壓力是否恢復、血糖是否穩定，以及生活能不能長期承受。",
+      ],
+      keyTakeaways: [
+        "體重停滯不一定代表失敗，可能是身體進入更保守的能量模式。",
+        "反覆低卡節食容易讓飢餓感變強，也可能讓肌肉量更難保留。",
+        "睡眠不足與壓力會提高飲食衝動，讓復胖更容易發生。",
+        "復胖循環的突破點不是更狠，而是降低波動、保留肌肉、讓方法可持續。",
+      ],
+      visual: {
+        type: "cycle",
+        title: "復胖循環地圖",
+        center: "越減越難瘦",
+        nodes: [
+          "激烈限制",
+          "短期下降",
+          "飢餓與疲勞升高",
+          "生活失控回補",
+          "代謝更保守",
+        ],
+      },
+      blocks: [
+        {
+          type: "quote",
+          text: "復胖不是故事的結尾，它通常是身體在告訴你：這套方法太像危機，不像可以長期生活的節奏。",
+        },
+        {
+          type: "heading",
+          text: "一、復胖不是單純回到原點",
+        },
+        {
+          type: "paragraph",
+          text: "很多人以為復胖只是胖回來，但身體經歷過多次激烈節食後，常常不是回到原本狀態，而是帶著更強的飢餓感、更低的活動意願、更容易失控的壓力反應重新開始。",
+        },
+        {
+          type: "paragraph",
+          text: "這也是為什麼同樣的方法第一次有效，第二次、第三次越來越難。問題可能不是你變懶，而是身體越來越不信任這套做法。",
+        },
+        {
+          type: "heading",
+          text: "二、代謝適應是身體的保護機制",
+        },
+        {
+          type: "paragraph",
+          text: "當攝取長期偏低，身體會透過降低能量消耗、提高飢餓訊號、減少非運動活動量來保護自己。這是生存機制，不是道德問題。",
+        },
+        {
+          type: "paragraph",
+          text: "研究追蹤極端減重案例時發現，快速且大量的減重可能伴隨長期休息代謝率下降。這不代表每個人都會一樣，但提醒我們：越激烈的方法，越需要注意身體的代償。",
+        },
+        {
+          type: "heading",
+          text: "三、肌肉與睡眠決定你能不能維持",
+        },
+        {
+          type: "paragraph",
+          text: "節食如果沒有保留肌肉，體重下降的同時也可能失去血糖緩衝器。肌肉少了，餐後血糖更難被穩定使用，日常消耗也更難維持。",
+        },
+        {
+          type: "paragraph",
+          text: "睡眠不足與壓力則會讓食慾訊號變強。你可能白天很努力，晚上卻因為疲勞與壓力被大腦推向高熱量食物。這不是失敗，而是系統沒有被接住。",
+        },
+        {
+          type: "heading",
+          text: "四、突破復胖循環，要先停止用危機處理身體",
+        },
+        {
+          type: "list",
+          items: [
+            "不要每次都從最低熱量開始，先找到能穩定生活的飲食結構。",
+            "把蛋白質、阻力訓練與日常活動放回計畫，目標是保留肌肉。",
+            "觀察睡眠、壓力與晚間失控，而不是只盯著體重數字。",
+            "把血糖波動降下來，讓兩餐之間不再像靠意志力硬撐。",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "這篇文章屬於健康教育與代謝原理整理，不取代醫療診斷或治療。若你有飲食疾患、糖尿病用藥、甲狀腺疾病或其他慢性病，調整飲食前應和專業醫療人員討論。",
+        },
+      ],
+      related: [
+        {
+          label: "代謝適應：為什麼節食常失敗",
+          href: "/library/life-metabolic-adaptation-why-diets-fail-science",
+        },
+        {
+          label: "減脂停滯完整指南",
+          href: "/library/life-fat-loss-plateau-complete-guide",
+        },
+        {
+          label: "肌少症、肌肉流失與代謝老化",
+          href: "/library/life-sarcopenia-muscle-loss-metabolic-aging",
+        },
+      ],
+      references: [
+        {
+          label:
+            "Fothergill 等人，Persistent metabolic adaptation 6 years after The Biggest Loser competition，Obesity 2016",
+          href: "https://pubmed.ncbi.nlm.nih.gov/27136388/",
+        },
+        {
+          label:
+            "Rosenbaum 與 Leibel，Adaptive thermogenesis in humans，International Journal of Obesity 2010",
+          href: "https://pubmed.ncbi.nlm.nih.gov/19834471/",
+        },
+      ],
+    },
+  },
+  {
+    slug: "health-check-red-flags-metabolic-map",
+    title: "健檢紅字不是單一問題：脂肪肝、血糖、血脂與腰圍其實常在說同一件事",
+    description:
+      "把脂肪肝、空腹血糖、HbA1c、三酸甘油脂、HDL、血壓與腰圍放回代謝脈絡，理解健檢紅字背後的系統訊號。",
+    category: "疾病與代謝風險",
+    url: "/library/health-check-red-flags-metabolic-map",
+    tags: ["健檢紅字", "脂肪肝", "血糖", "血脂", "代謝症候群"],
+    recommendedOrder: 1,
+    source: "知識整理",
+    content: {
+      slug: "health-check-red-flags-metabolic-map",
+      originalSlug: "health-check-red-flags-metabolic-map",
+      title: "健檢紅字不是單一問題：脂肪肝、血糖、血脂與腰圍其實常在說同一件事",
+      originalUrl: "",
+      importedAt: "2026-05-23",
+      summary: [
+        "健檢報告上的紅字很容易被拆開看：肝指數是肝臟、血糖是糖尿病、血脂是膽固醇。但在代謝視角裡，它們常常是同一套系統的不同出口。",
+        "真正值得追的是組合與趨勢：腰圍、三酸甘油脂、HDL、血糖、血壓、脂肪肝與睡眠壓力，會比單一數字更接近身體狀態。",
+      ],
+      keyTakeaways: [
+        "健檢紅字是線索，不是自我診斷；需要由醫療專業判讀。",
+        "脂肪肝、三酸甘油脂、血糖與腰圍常和胰島素阻抗有共同背景。",
+        "單次數字重要，但過去 1 到 3 年的趨勢更值得看。",
+        "先理解系統，再決定生活型態調整方向，避免只追單一指標。",
+      ],
+      visual: {
+        type: "risk",
+        title: "健檢紅字的代謝地圖",
+        center: "代謝風險",
+        nodes: ["腰圍", "脂肪肝", "三酸甘油脂", "HDL 偏低", "空腹血糖", "血壓"],
+      },
+      blocks: [
+        {
+          type: "quote",
+          text: "健檢紅字不一定代表你已經生病，但它常常是在提醒你：身體處理能量的方式正在改變。",
+        },
+        {
+          type: "heading",
+          text: "一、不要把每個紅字都當成獨立事件",
+        },
+        {
+          type: "paragraph",
+          text: "很多人看到健檢報告，會把問題拆成很多小格子：肝指數偏高、三酸甘油脂偏高、血糖接近邊緣、腰圍變大。可是身體不是用表格運作，這些數字可能正在描述同一件事：能量長期處理不順。",
+        },
+        {
+          type: "paragraph",
+          text: "從代謝角度看，內臟脂肪、脂肪肝、胰島素阻抗、血糖波動與血脂異常經常彼此牽動。它們不一定同時出現，但常常沿著相近路徑慢慢浮出來。",
+        },
+        {
+          type: "heading",
+          text: "二、三組數字最值得一起看",
+        },
+        {
+          type: "list",
+          items: [
+            "腰圍與脂肪肝：提示內臟脂肪與肝臟脂肪堆積的可能背景。",
+            "三酸甘油脂與 HDL：反映血脂代謝，也常和胰島素阻抗有關。",
+            "空腹血糖與 HbA1c：描述血糖狀態，但早期問題可能先表現在餐後波動或胰島素代償。",
+          ],
+        },
+        {
+          type: "heading",
+          text: "三、看趨勢，比看單次更接近真相",
+        },
+        {
+          type: "paragraph",
+          text: "一次健檢可能受到前一晚飲食、睡眠、壓力、感染或檢測誤差影響。更值得看的是過去 1 到 3 年的趨勢：腰圍是否逐年上升？三酸甘油脂是否慢慢變高？血糖是否從低正常逐漸靠近邊界？",
+        },
+        {
+          type: "paragraph",
+          text: "趨勢能告訴你身體正在往哪個方向移動。這也是為什麼健檢報告不只是判斷合格或不合格，而是觀察代謝方向的地圖。",
+        },
+        {
+          type: "heading",
+          text: "四、可以先從生活線索回推",
+        },
+        {
+          type: "list",
+          items: [
+            "飯後是否容易想睡，或很快又餓。",
+            "腰圍是否比體重更快變化。",
+            "睡眠是否變淺，壓力期間是否更想吃澱粉或甜食。",
+            "外食、手搖飲、宵夜與酒精是否成為固定節奏。",
+          ],
+        },
+        {
+          type: "paragraph",
+          text: "這篇文章是健康教育，不取代醫師判讀健檢、診斷或用藥建議。若健檢出現紅字，請先依醫療專業建議追蹤；網站內容適合作為你理解生活型態與代謝脈絡的起點。",
+        },
+      ],
+      related: [
+        {
+          label: "脂肪肝與 NAFLD 的改善階段",
+          href: "/library/life-fatty-liver-nafld-reversal-stages",
+        },
+        {
+          label: "空腹血糖正常，也可能有胰島素阻抗",
+          href: "/library/life-normal-fasting-glucose-insulin-resistance",
+        },
+        {
+          label: "三酸甘油脂偏高代表什麼",
+          href: "/library/life-high-triglycerides-meaning-fat-loss",
+        },
+      ],
+      references: [
+        {
+          label:
+            "AASLD Practice Guidance on the clinical assessment and management of NAFLD，Hepatology 2023",
+          href: "https://pubmed.ncbi.nlm.nih.gov/36727674/",
+        },
+        {
+          label:
+            "Alberti 等人，Harmonizing the metabolic syndrome，Circulation 2009",
+          href: "https://pubmed.ncbi.nlm.nih.gov/19805654/",
+        },
+      ],
+    },
+  },
+  {
     slug: "sleep-appetite-metabolism",
     title: "睡不好，為什麼更難穩定飲食",
     description:
