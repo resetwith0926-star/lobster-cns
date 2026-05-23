@@ -17,12 +17,12 @@ const items = articles
 const linkLabel = (source) => {
   if (source === "知識整理") return "閱讀站內文章";
   if (source === "觀念短文") return "閱讀站內短文";
-  return "前往原站文章";
+  return "閱讀站內內容";
 };
 ---
 
 <BaseLayout
-  title={`${category.title} | CNFCD 文章地圖`}
+  title={`${category.seoTitle} | CNFCD.TW`}
   description={category.description}
   canonicalPath={`/articles/${category.slug}`}
 >
@@ -30,6 +30,9 @@ const linkLabel = (source) => {
     <p class="eyebrow">Reading Route</p>
     <h1>{category.title}</h1>
     <p class="section-intro">{category.description}</p>
+    <p class="boundary-note">
+      這個分類只收站內知識內容，聚焦「為什麼」與「怎麼理解」，不放方案、費用、加入流程或銷售導向連結。
+    </p>
   </section>
 
   <section class="article-stack" aria-label={category.title}>

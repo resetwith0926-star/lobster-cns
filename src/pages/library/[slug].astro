@@ -21,6 +21,41 @@ const updatedDate = content
       day: "2-digit",
     }).format(new Date(content.importedAt))
   : "";
+
+const normalizeHref = (href) => href.replace(/\/$/, "");
+const articleUrlSet = new Set(articles.map((item) => normalizeHref(item.url)));
+const manualRelated =
+  content?.related
+    ?.map((item) => ({ ...item, href: normalizeHref(item.href) }))
+    .filter((item) => item.href.startsWith("/"))
+    .filter((item) => articleUrlSet.has(item.href))
+    .filter((item) => item.href !== article.url) ?? [];
+const manualRelatedHrefs = new Set(manualRelated.map((item) => item.href));
+const generatedRelated = articles
+  .filter((candidate) => candidate.slug !== article.slug)
+  .filter((candidate) => candidate.url.startsWith("/"))
+  .filter((candidate) => !manualRelatedHrefs.has(candidate.url))
+  .map((candidate) => {
+    const sharedTags = candidate.tags.filter((tag) =>
+      article.tags.includes(tag),
+    );
+    const score =
+      (candidate.category === article.category ? 6 : 0) + sharedTags.length * 2;
+
+    return { candidate, score };
+  })
+  .filter((item) => item.score > 0)
+  .sort(
+    (a, b) =>
+      b.score - a.score ||
+      a.candidate.recommendedOrder - b.candidate.recommendedOrder,
+  )
+  .slice(0, 6)
+  .map(({ candidate }) => ({
+    label: candidate.title,
+    href: candidate.url,
+  }));
+const relatedItems = [...manualRelated, ...generatedRelated].slice(0, 6);
 ---
 
 <BaseLayout
@@ -95,30 +130,20 @@ const updatedDate = content
     }
 
     {
-      content && (content.related?.length || content.references?.length) && (
+      content && (relatedItems.length || content.references?.length) && (
         <section class="panel related-panel" aria-label="延伸閱讀與資料來源">
-          {content.related && content.related.length > 0 && (
+          {relatedItems.length > 0 && (
             <div>
               <div class="section-heading inline-heading">
                 <p class="eyebrow">Next Reading</p>
-                <h2>延伸閱讀</h2>
+                <h2>站內延伸閱讀</h2>
               </div>
               <ul class="reading-list">
-                {content.related.map((item) => (
+                {relatedItems.map((item) => (
                   <li>
-                    <a
-                      href={item.href}
-                      target={
-                        item.href.startsWith("http") ? "_blank" : undefined
-                      }
-                      rel={
-                        item.href.startsWith("http") ? "noreferrer" : undefined
-                      }
-                    >
+                    <a href={item.href}>
                       <span>{item.label}</span>
-                      <span aria-hidden="true">
-                        {item.href.startsWith("http") ? "↗" : "→"}
-                      </span>
+                      <span aria-hidden="true">→</span>
                     </a>
                   </li>
                 ))}
@@ -157,14 +182,6 @@ const updatedDate = content
         <span>回到文章地圖</span>
         <span aria-hidden="true">→</span>
       </a>
-      {
-        article.originalUrl && (
-          <a href={article.originalUrl} target="_blank" rel="noreferrer">
-            <span>查看原始文章來源</span>
-            <span aria-hidden="true">↗</span>
-          </a>
-        )
-      }
     </nav>
   </article>
 </BaseLayout>

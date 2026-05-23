@@ -10,9 +10,9 @@ export type ArticleCategory =
   | "外食族指南"
   | "疾病與代謝風險"
   | "常見迷思"
-  | "案例與研究整理";
+  | "研究與資料整理";
 
-export type ArticleSource = "觀念短文" | "知識整理" | "原站文章";
+export type ArticleSource = "觀念短文" | "知識整理";
 
 export interface ArticleSection {
   heading: string;
@@ -77,6 +77,7 @@ export interface ArticleCategoryMeta {
   slug: string;
   title: ArticleCategory;
   description: string;
+  seoTitle: string;
 }
 
 interface CsvRow {
@@ -92,51 +93,61 @@ export const articleCategories: ArticleCategoryMeta[] = [
     slug: "beginner",
     title: "新手必讀",
     description: "先用最少篇幅建立 CNFCD、代謝節奏與身體卡住原因的共同語言。",
+    seoTitle: "為什麼瘦不下來？代謝卡住的新手入門",
   },
   {
     slug: "cnfcd-core",
     title: "CNFCD 核心",
     description: "整理 CNFCD 的方法框架、代謝健康觀念與和傳統減重邏輯的差異。",
+    seoTitle: "CNFCD 是什麼？用代謝節奏理解身體卡住",
   },
   {
     slug: "metabolic-repair",
     title: "代謝修復",
     description: "聚焦代謝適應、停滯感、能量動員與身體如何慢慢回到穩定狀態。",
+    seoTitle: "代謝變慢怎麼辦？理解停滯與代謝適應",
   },
   {
     slug: "insulin-blood-sugar",
     title: "胰島素與血糖",
     description: "整理血糖波動、肝醣、胰島素敏感度與飢餓感之間的關係。",
+    seoTitle: "胰島素阻抗是什麼？血糖波動與飯後想睡原因",
   },
   {
     slug: "gut-inflammation",
     title: "腸道與發炎",
     description: "從腸道菌相、短鏈脂肪酸、發炎與食慾訊號理解日常狀態。",
+    seoTitle: "腸道發炎會影響體重嗎？菌相、食慾與代謝",
   },
   {
     slug: "sleep-stress",
     title: "睡眠與壓力",
     description: "理解睡眠節律、壓力荷爾蒙與脂肪動員的交互作用。",
+    seoTitle: "睡不好為什麼會變胖？壓力、食慾與代謝",
   },
   {
     slug: "eating-out",
     title: "外食族指南",
     description: "把觀念轉成可執行的外食選擇與生活節奏策略。",
+    seoTitle: "外食怎麼吃比較穩？早餐、便當與手搖飲指南",
   },
   {
     slug: "metabolic-disease",
     title: "疾病與代謝風險",
     description: "收錄脂肪肝、糖尿病、三高、腎臟、關節與其他代謝相關風險文章。",
+    seoTitle: "脂肪肝、三高與血糖紅字代表什麼？代謝風險地圖",
   },
   {
     slug: "myths",
     title: "常見迷思",
     description: "整理常見誤解，幫助讀者拆解熱量、節食、運動與速效說法。",
+    seoTitle: "少吃多動為什麼沒效？常見減重迷思整理",
   },
   {
     slug: "cases-research",
-    title: "案例與研究整理",
-    description: "放置案例、觀察與研究摘要，作為延伸閱讀入口。",
+    title: "研究與資料整理",
+    description: "放置研究、資料與觀察摘要，作為延伸閱讀入口。",
+    seoTitle: "代謝健康研究整理：血糖、肥胖與飲食證據",
   },
 ];
 
@@ -885,7 +896,10 @@ const cleanedLifeArticles = JSON.parse(
 const excludedUrlParts = [
   "/en/",
   "privacy",
+  "about-cnfcd",
+  "cnfcd-faq",
   "cost",
+  "price",
   "worth-it",
   "pricing",
   "product",
@@ -895,6 +909,7 @@ const excludedUrlParts = [
   "breakthrough-plan",
   "story",
   "success",
+  "real-client",
   "client-case",
   "founder",
   "advisor",
@@ -917,6 +932,17 @@ const excludedUrlParts = [
   "internationally-certified",
   "plan-pricing",
   "ai-weight-loss-program",
+  "what-is-cnfcd",
+  "who-is-cnfcd",
+  "cnfcd-complete-guide",
+  "cnfcd-cost",
+  "cnfcd-direct",
+  "cnfcd-first-week",
+  "cnfcd-fat-burning",
+  "cnfcd-real",
+  "cnfcd-story",
+  "cnfcd-vs",
+  "cnfcd-weightloss",
   "resetwith-brand",
   "brand-overview",
   "author/",
@@ -931,25 +957,33 @@ const externalArticles = uniqueCanonicalRows(csvRows)
   .filter(
     (row) => !excludedUrlParts.some((part) => row.canonical.includes(part)),
   )
+  .filter((row) => cleanedLifeArticles[`life-${slugFromUrl(row.canonical)}`])
   .map((row, index): ArticleEntry => {
     const slug = slugFromUrl(row.canonical);
     const articleSlug = `life-${slug}`;
     const category = categoryFromSlug(slug);
-    const content = cleanedLifeArticles[articleSlug]
-      ? sanitizeContent(cleanedLifeArticles[articleSlug])
-      : undefined;
+    const content = sanitizeContent(cleanedLifeArticles[articleSlug]);
     return {
       slug: articleSlug,
       title: titleFromSlug(slug),
       description: descriptionFor(category, slug),
       category,
-      url: content ? `/library/${articleSlug}` : row.canonical,
+      url: `/library/${articleSlug}`,
       originalUrl: row.canonical,
       tags: tagsFromSlug(slug, category),
       recommendedOrder: index + 20,
-      source: content ? "知識整理" : "原站文章",
+      source: "知識整理",
       content,
     };
+  })
+  .filter((article) => {
+    const content = article.content;
+    return Boolean(
+      content &&
+      (content.summary.length ||
+        content.keyTakeaways.length ||
+        content.blocks.length),
+    );
   });
 
 export const articles: ArticleEntry[] = [
@@ -964,7 +998,7 @@ export const articles: ArticleEntry[] = [
 export const articleStats = {
   total: articles.length,
   principle: principleArticles.length,
-  external: externalArticles.length,
+  imported: externalArticles.length,
   cleaned: externalArticles.filter((article) => article.content).length,
 };
 
@@ -1086,6 +1120,10 @@ function normalizeText(text: string): string {
     .replace(/🔍\s*AI\s*摘要/gi, "")
     .replace(/AI\s*摘要[:：]?/gi, "")
     .replace(/^[🧬🔬⚖️👥🎯🌿👉➡\s]+/gu, "")
+    .replace(/（?延伸閱讀[:：][^。]*[。）]?/g, "")
+    .replace(/如需進一步了解[^。]*可參考[:：][^。]*。?/g, "")
+    .replace(/[^。！？]*可進一步參考[:：][^。！？]*[。！？]?/g, "")
+    .replace(/(?:關於|若想|如需)?[^。！？]*可參考[:：][^。！？]*[。！？]?/g, "")
     .replace(
       /CNFCD 是由微康公司開發的個人化代謝飲食方法[，,]?/g,
       "CNFCD 在這裡被整理成一套代謝健康理解框架，",
@@ -1103,6 +1141,12 @@ function isUsefulText(text: string): boolean {
   if (/^[a-z0-9-]+$/i.test(value)) return false;
   if (value.startsWith("→ ")) return false;
   if (value.startsWith("👉") || value.startsWith("➡")) return false;
+  if (/延伸閱讀[:：]/.test(value) || /可參考[:：]/.test(value)) {
+    return false;
+  }
+  if (/^Q[：:]/.test(value) && /CNFCD|加入|費用|方案|適合|幫助/.test(value)) {
+    return false;
+  }
 
   const noisyFragments = [
     "💡 本文重點導覽",
@@ -1124,11 +1168,34 @@ function isUsefulText(text: string): boolean {
     "CNFCD 學員",
     "學員",
     "客戶",
+    "客戶案例",
     "個案",
     "協助個案",
     "施憲紘",
+    "CNFCD 飲食調整",
+    "CNFCD 設計",
+    "CNFCD 的設計",
+    "CNFCD 能幫助",
+    "透過 CNFCD",
+    "CNFCD 透過",
+    "CNFCD 的調整",
+    "CNFCD 的飲食調整",
+    "CNFCD 的核心不是",
+    "CNFCD 如何",
     "CNFCD 如何幫助",
     "CNFCD 如何協助",
+    "適合 CNFCD",
+    "適合，尤其是",
+    "個人化飲食策略",
+    "需要個人化",
+    "專屬 APP",
+    "智能秤",
+    "費用",
+    "商業模式",
+    "直銷",
+    "怎麼開始",
+    "流程是什麼",
+    "計劃",
     "想了解 CNFCD 是否適合",
     "是否適合你",
     "歡迎聯繫",
@@ -1151,6 +1218,10 @@ function isUsefulText(text: string): boolean {
     "值得認真考慮",
     "開始有感覺",
     "通常執行 CNFCD",
+    "通常執行",
+    "第一週就會",
+    "明顯感受",
+    "幫你找到",
     "執行 CNFCD",
     "立即購買",
     "加入課程",
@@ -1313,7 +1384,7 @@ function categoryFromSlug(slug: string): ArticleCategory {
       "nutrition-aging-evidence",
     ])
   ) {
-    return "案例與研究整理";
+    return "研究與資料整理";
   }
 
   return "代謝修復";
@@ -1357,6 +1428,9 @@ function titleFromSlug(slug: string): string {
     "weight-loss-plateau-science": "體重停滯的科學原因",
     "fat-loss-plateau-complete-guide": "減脂停滯完整指南",
     "fat-loss-plateau-eat-less-myth": "少吃就會突破停滯嗎",
+    "why-weight-rebound-metabolic-mechanism-diet-strategy":
+      "為什麼減重後容易復胖？代謝機制與飲食策略",
+    "women-fat-loss-complete-guide": "女性減脂完整指南",
     "insulin-resistance-complete-guide": "胰島素阻抗完整指南",
     "insulin-resistance-self-test-5-warning-signs": "胰島素阻抗的五個常見警訊",
     "insulin-resistance-metabolic-syndrome-science": "胰島素阻抗與代謝症候群",
@@ -1417,6 +1491,10 @@ function titleFromSlug(slug: string): string {
       "台灣常見減脂地雷食物與血糖",
     "bubble-tea-metabolism-truth": "手搖飲與代謝真相",
     "bubble-tea-blood-sugar-guide": "手搖飲、血糖與選擇指南",
+    "omega3-metabolic-health-evidence": "Omega-3 與代謝健康證據",
+    "telomere-length-nutrition-aging-evidence": "端粒長度、營養與老化證據",
+    "2026-us-dietary-guidelines-whole-milk-eggs-reversal":
+      "2026 美國飲食指南：全脂牛奶與雞蛋觀點更新",
     "why-metabolism-slows-after-40-science-explanation":
       "40 歲後代謝變慢的科學解釋",
     "slow-metabolism-signs-causes-dietary-solutions":
@@ -1450,6 +1528,7 @@ function titleFromSlug(slug: string): string {
     "protein-intake-muscle-fat-loss-science": "蛋白質、肌肉與減脂科學",
     "sarcopenia-muscle-loss-metabolic-aging": "肌少症、肌肉流失與代謝老化",
     "sarcopenic-obesity-double-metabolic-risk": "肌少型肥胖的雙重代謝風險",
+    "brown-fat-activation-metabolism": "棕色脂肪活化與代謝",
     "mitochondrial-dysfunction-metabolic-aging": "粒線體功能與代謝老化",
     "tca-cycle-cofactors-b-vitamins-magnesium": "TCA 循環、B 群與鎂",
     "ampk-mtor-balance-metabolic-health": "AMPK、mTOR 與代謝平衡",
@@ -1950,8 +2029,8 @@ function descriptionFor(category: ArticleCategory, slug: string): string {
       "以健康教育角度整理代謝與脂肪肝、糖尿病、三高、心血管等風險的關聯。",
     常見迷思:
       "拆解常見減重迷思，避免把所有問題都簡化成意志力、熱量或單一方法。",
-    案例與研究整理:
-      "以案例或研究索引方式整理可延伸閱讀的脈絡，協助讀者建立完整地圖。",
+    研究與資料整理:
+      "以研究、資料與觀察索引方式整理可延伸閱讀的脈絡，協助讀者建立完整地圖。",
   };
 
   if (slug.includes("glp1")) {

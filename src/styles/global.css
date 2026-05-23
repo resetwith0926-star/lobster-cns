@@ -425,6 +425,32 @@ button {
   padding: 6px 0 18px;
 }
 
+.boundary-panel {
+  display: grid;
+  gap: 12px;
+  border-color: rgba(214, 105, 77, 0.28);
+}
+
+.boundary-panel h2 {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 1.25rem;
+}
+
+.boundary-panel p:last-child,
+.boundary-note {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.boundary-note {
+  margin-top: 18px;
+  border-left: 2px solid var(--accent);
+  padding-left: 14px;
+  font-size: 0.95rem;
+}
+
 .inline-heading {
   padding-bottom: 12px;
 }

@@ -18,16 +18,27 @@ const featuredPrinciples = principleArticles.slice(0, 4);
 ---
 
 <BaseLayout
-  title="CNFCD 文章地圖 | CNFCD 知識入口"
-  description="依照主題快速找到 CNFCD 既有文章與延伸閱讀，建立自己的閱讀順序。"
+  title="胰島素阻抗、代謝修復與脂肪肝文章地圖 | CNFCD.TW"
+  description="依照胰島素阻抗、血糖、脂肪肝、睡眠壓力、腸道發炎與外食情境，找到站內知識文章與閱讀順序。"
   canonicalPath="/articles"
 >
   <section class="panel page-heading">
     <p class="eyebrow">Article Map</p>
     <h1>CNFCD 文章地圖</h1>
     <p class="section-intro">
-      這一頁把站內原理短文與 cnfcd.life 原站文章整理成同一張知識地圖。只收錄
-      CNFCD、代謝、血糖、腸道、睡眠、外食與疾病風險相關內容，文章以站內閱讀為主，不放銷售導向頁面。
+      這一頁把站內原理短文與整理文章放成同一張知識地圖。只收錄
+      CNFCD、代謝、血糖、腸道、睡眠、外食與疾病風險相關內容，不放方案、費用、加入流程或銷售導向頁面。
+    </p>
+  </section>
+
+  <section class="panel boundary-panel" aria-label="內容分工原則">
+    <div>
+      <p class="eyebrow">Content Boundary</p>
+      <h2>.tw 的任務：先讓人看懂身體</h2>
+    </div>
+    <p>
+      CNFCD.TW
+      是知識前哨，回答「為什麼瘦不下來」「胰島素阻抗是什麼」「脂肪肝與血糖有什麼關係」這類問題型搜尋。服務故事、方案、費用與加入流程不放在這裡。
     </p>
   </section>
 
@@ -41,7 +52,7 @@ const featuredPrinciples = principleArticles.slice(0, 4);
       <p>站內原理短文</p>
     </div>
     <div class="stat-panel">
-      <span>{articleStats.cleaned}</span>
+      <span>{articleStats.imported}</span>
       <p>站內整理文章</p>
     </div>
   </section>
